@@ -16,10 +16,10 @@ SajilooBus.com is a Bus Ticket Booking System Web Application designed to simpli
 
 ## Technologies Used
 
-- Frontend: HTML, CSS, JavaScript
-- Backend: Node.js, Express.js
-- Database: MongoDB
-- Payment Gateway: Stripe API
+- Frontend: VueJS + NuxtJS
+- Backend: Laravel
+- Database: mysql
+- Payment Gateway: Stripe API, Esewa
 
 ## Installation
 
