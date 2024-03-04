@@ -16,5 +16,8 @@ export const useSearchStore = defineStore("search-store", {
         updateLocationB(city) {
             this.locationB = city;
         },
+        updatePickedDate(date) {
+            this.pickedDate = date;
+        },
     },
 });

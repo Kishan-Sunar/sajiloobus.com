@@ -1,0 +1,15 @@
+/* Customization: Date picker */
+.dp__theme_dark,
+.dp__theme_light {
+    --dp-primary-color: #16a34a !important;
+    --dp-primary-disabled-color: #6fdc97 !important;
+}
+.dp__outer_menu_wrap {
+    width: 22rem;
+}
+.dp__outer_menu_wrap .dp__menu {
+    border: 0 !important;
+}
+.dp__cell_inner {
+    padding: 20px !important;
+}

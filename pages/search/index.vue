@@ -1,14 +1,14 @@
 <script setup></script>
 
 <template>
-    <section class="pt-10 sm:py-50 bg-slate-400 relative z-10">
+    <section class="pt-16 pb-4 bg-slate-400 relative z-10">
         <div>
             <img class="absolute shadow-xl top-0 left-0 bottom-0 h-full w-full object-cover"
                 src="~/assets/backgrounds/bg-blur.png" alt="background" />
         </div>
-        <div class="relative pt-20 pb-8">
+        <div class="relative pt-20">
             <div class="container mx-auto">
-                <!-- search box -->
+                <SearchboxCard class="mb-4" />
                 <div class="flex flex-col gap-4 sm:items-center sm:flex-row justify-between">
                     <h3 class="text-lg text-white/70">
                         <strong class="text-white">174 Buses</strong>

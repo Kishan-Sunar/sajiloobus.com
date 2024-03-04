@@ -1,3 +1,8 @@
+<script setup>
+let showLoginModal = ref(false)
+let showRegisterModal = ref(false)
+</script>
+
 <template>
     <header class="fixed z-40 top-0 left-0 right-0">
         <div class="container mx-auto">
@@ -44,4 +49,6 @@
             </div>
         </div>
     </header>
+    <TheLogin @open-register="showRegisterModal = true" @close="showLoginModal = false" :show="showLoginModal" />
+    <TheRegister @open-login="showLoginModal = true" @close="showRegisterModal = false" :show="showRegisterModal" />
 </template>

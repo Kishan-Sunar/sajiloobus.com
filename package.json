@@ -12,6 +12,7 @@
     "dependencies": {
         "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
         "@pinia/nuxt": "^0.5.1",
+        "@vuepic/vue-datepicker": "^8.2.0",
         "@vueuse/core": "^10.9.0",
         "nuxt": "^3.10.3",
         "pinia": "^2.1.7",
