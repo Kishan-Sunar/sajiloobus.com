@@ -6,7 +6,7 @@
     <section>
         <div class="relative z-10">
             <div class="container mx-auto">
-                <TheSearchBox />
+                <SearchboxCard />
             </div>
         </div>
 
