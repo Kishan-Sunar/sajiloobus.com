@@ -65,7 +65,7 @@ defineProps({
                             </button>
                         </div>
                     </div>
-                    <SocialLogin />
+                    <TheSocialLogin />
                 </div>
             </div>
         </template>
