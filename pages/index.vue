@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
     <LandingHeroSection />
@@ -9,7 +8,6 @@
                 <SearchboxCard />
             </div>
         </div>
-
     </section>
     <LandingAppFeature />
 </template>

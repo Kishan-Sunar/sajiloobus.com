@@ -3,11 +3,14 @@ defineProps({
     activePage: String
 })
 </script>
+
 <template>
     <section class="pt-10 sm:py-50 bg-slate-400 relative z-10">
         <div>
-            <img class="absolute shadow-xl top-0 left-0 bottom-0 h-full w-full object-cover"
-                src="~/assets/backgrounds/bg-blur-1.png" alt="background" />
+            <ClientOnly>
+                <img class="absolute shadow-xl top-0 left-0 bottom-0 h-full w-full object-cover"
+                    src="~/assets/backgrounds/bg-blur-1.png" alt="background" />
+            </ClientOnly>
         </div>
         <div class="relative pt-20 pb-8">
             <div class="container mx-auto">

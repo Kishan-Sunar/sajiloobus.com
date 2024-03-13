@@ -35,7 +35,7 @@ let isSearchFocused = ref(false)
             class="bg-white overflow-hidden rounded-2xl w-full sm:w-[25rem] pb-2 shadow-[0px_12px_51px_-5px_rgba(0,0,0,0.25)]">
             <div class="sticky py-2 top-0 left-0 w-full">
                 <div class="py-2 pl-6 pointer-events-none px-4 absolute left-0 top-1/2 -translate-y-1/2">
-                    <IconSearch :class="isSearchFocused ? 'text-green-500' : 'text-slate-400'" class="h-7" />
+                    <IconSearch :class="isSearchFocused ? 'text-green-600' : 'text-slate-400'" class="h-7" />
                 </div>
                 <input @focusin="isSearchFocused = true" @focusout="isSearchFocused = false" v-model="searchInput"
                     type="text" class="w-full bg-white pb-2 pt-2 pr-4 pl-16 text-slate-700 outline-none"

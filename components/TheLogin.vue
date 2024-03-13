@@ -19,7 +19,7 @@ defineProps({
                             <p class="text-sm">
                                 Don’t have an account?
                                 <span @click="$emit('openRegister'); $emit('close')"
-                                    class="cursor-pointer text-green-600 hover:text-green-500 font-semibold">Sign
+                                    class="cursor-pointer text-green-600 hover:text-green-600 font-semibold">Sign
                                     Up</span>
                             </p>
                         </div>
@@ -56,7 +56,7 @@ defineProps({
                                 </label>
                             </div>
                             <button
-                                class="px-8 py-4 rounded-full text-white bg-green-500 hover:bg-green-600 flex justify-between gap-x-6 items-center">
+                                class="px-8 py-4 rounded-full text-white bg-green-600 hover:bg-green-600 flex justify-between gap-x-6 items-center">
                                 <span class="text-base font-medium">Next</span>
                                 <IconChevronRight class="h-4" />
                             </button>

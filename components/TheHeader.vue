@@ -19,15 +19,15 @@ let showRegisterModal = ref(false)
                             <ul class="flex gap-x-4">
                                 <li>
                                     <nuxt-link to="/search"
-                                        class="text-white/80 py-6 px-1 flex items-center hover:text-green-500">Browse</nuxt-link>
+                                        class="text-white/80 py-6 px-1 flex items-center hover:text-green-600">Browse</nuxt-link>
                                 </li>
                                 <li>
                                     <a href=""
-                                        class="text-white/80 py-6 px-1 flex items-center hover:text-green-500">Offer</a>
+                                        class="text-white/80 py-6 px-1 flex items-center hover:text-green-600">Offer</a>
                                 </li>
                                 <li>
                                     <a href=""
-                                        class="text-white/80 py-6 px-1 flex items-center hover:text-green-500">Help
+                                        class="text-white/80 py-6 px-1 flex items-center hover:text-green-600">Help
                                         Desk</a>
                                 </li>
                             </ul>
@@ -36,7 +36,7 @@ let showRegisterModal = ref(false)
                             <ul class="flex items-center gap-x-4">
                                 <li>
                                     <button @click.self="showLoginModal = true"
-                                        class="text-white/80 py-4 px-1 flex items-center hover:text-green-500">Login</button>
+                                        class="text-white/80 py-4 px-1 flex items-center hover:text-green-600">Login</button>
                                 </li>
                                 <li>
                                     <button @click.self="showRegisterModal = true"

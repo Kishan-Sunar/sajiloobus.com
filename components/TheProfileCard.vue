@@ -13,7 +13,7 @@
                 <div
                     class="flex px-2 sm:px-6 flex-col sm:flex-row gap-4 sm:items-end justify-between border-b pb-4 mb-2">
                     <h3 class="text-lg font-medium">Username Here !</h3>
-                    <nuxt-link to="#" class="text-sm font-medium hover:text-green-500">Log out</nuxt-link>
+                    <nuxt-link to="#" class="text-sm font-medium hover:text-green-600">Log out</nuxt-link>
                 </div>
                 <div class="px-2 sm:px-6">
                     <div class="grid sm:grid-cols-2 gap-x-4 gap-y-6">

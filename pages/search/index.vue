@@ -3,8 +3,10 @@
 <template>
     <section class="pt-16 pb-4 bg-slate-400 relative z-10">
         <div>
-            <img class="absolute shadow-xl top-0 left-0 bottom-0 h-full w-full object-cover"
-                src="~/assets/backgrounds/bg-blur.png" alt="background" />
+            <ClientOnly>
+                <img class="absolute shadow-xl top-0 left-0 bottom-0 h-full w-full object-cover"
+                    src="~/assets/backgrounds/bg-blur.png" alt="background" />
+            </ClientOnly>
         </div>
         <div class="relative pt-20">
             <div class="container mx-auto">
@@ -69,7 +71,7 @@
                                         <div
                                             class="absolute transition-all duration-300 flex h-full sm:h-min flex-col sm:flex-row items-center gap-2 sm:w-full top-0 left-0">
                                             <i
-                                                class="min-w-4 min-h-4 bg-white rounded-full border-2 border-green-500"></i>
+                                                class="min-w-4 min-h-4 bg-white rounded-full border-2 border-green-600"></i>
                                         </div>
                                         <div class="pt-0 pl-8 sm:pt-6 sm:pl-0 pb-3 sm:pb-0 transition-all duration-300">
                                             <span class="text-sm mb-2 text-slate-600">Arrival</span>

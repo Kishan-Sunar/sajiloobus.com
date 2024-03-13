@@ -13,7 +13,7 @@
                                 <div class="flex justify-start gap-x-4">
                                     <div>
                                         <div
-                                            class="bg-gradient-to-br from-green-500 to-green-900 text-white rounded-full w-16 h-16 flex justify-center items-center">
+                                            class="bg-gradient-to-br from-green-600 to-green-900 text-white rounded-full w-16 h-16 flex justify-center items-center">
                                             <IconPayment class="w-11" />
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                                         <div
                                             class="absolute flex gap-y-2 flex-col items-center top-0 left-0 w-8 h-full">
                                             <span
-                                                class="w-5 min-h-5 block rounded-full border-[3px] border-green-500"></span>
+                                                class="w-5 min-h-5 block rounded-full border-[3px] border-green-600"></span>
                                         </div>
                                         <div class="flex flex-col gap-y-1">
                                             <span class="font-medium mt-0.5 text-sm text-green-700">Arrival</span>

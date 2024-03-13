@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-    <section class="h-[15rem] bg-green-500 relative"></section>
+    <section class="h-[15rem] bg-green-600 relative"></section>
     <section class="py-10 relative bg-slate-100">
         <div class="container mx-auto">
             <TheProfileCard class="mb-10" />

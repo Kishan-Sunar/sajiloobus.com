@@ -33,22 +33,26 @@
                         <h3 class="text-xl mb-2 font-semibold">Top routes</h3>
                         <ul class="flex flex-col gap-y-2">
                             <li>
-                                <nuxt-link to="#" class="hover:text-green-600 text-slate-500 transition-all duration-200">
+                                <nuxt-link to="#"
+                                    class="hover:text-green-600 text-slate-500 transition-all duration-200">
                                     Kathmandu - Pokhara
                                 </nuxt-link>
                             </li>
                             <li>
-                                <nuxt-link to="#" class="hover:text-green-600 text-slate-500 transition-all duration-200">
+                                <nuxt-link to="#"
+                                    class="hover:text-green-600 text-slate-500 transition-all duration-200">
                                     Pokhara - Surkhet
                                 </nuxt-link>
                             </li>
                             <li>
-                                <nuxt-link to="#" class="hover:text-green-600 text-slate-500 transition-all duration-200">
+                                <nuxt-link to="#"
+                                    class="hover:text-green-600 text-slate-500 transition-all duration-200">
                                     Pokhara - Nepalgung
                                 </nuxt-link>
                             </li>
                             <li>
-                                <nuxt-link to="#" class="hover:text-green-600 text-slate-500 transition-all duration-200">
+                                <nuxt-link to="#"
+                                    class="hover:text-green-600 text-slate-500 transition-all duration-200">
                                     Pokhara - Hetauda
                                 </nuxt-link>
                             </li>
@@ -58,17 +62,20 @@
                         <h3 class="text-xl mb-2 font-semibold">Top Operators</h3>
                         <ul class="flex flex-col gap-y-2">
                             <li>
-                                <nuxt-link to="#" class="hover:text-green-600 text-slate-500 transition-all duration-200">
+                                <nuxt-link to="#"
+                                    class="hover:text-green-600 text-slate-500 transition-all duration-200">
                                     Lotus Tours and Travels
                                 </nuxt-link>
                             </li>
                             <li>
-                                <nuxt-link to="#" class="hover:text-green-600 text-slate-500 transition-all duration-200">
+                                <nuxt-link to="#"
+                                    class="hover:text-green-600 text-slate-500 transition-all duration-200">
                                     Desh Darshan Travels
                                 </nuxt-link>
                             </li>
                             <li>
-                                <nuxt-link to="#" class="hover:text-green-600 text-slate-500 transition-all duration-200">
+                                <nuxt-link to="#"
+                                    class="hover:text-green-600 text-slate-500 transition-all duration-200">
                                     Syanjha Tours and Travels
                                 </nuxt-link>
                             </li>
@@ -85,7 +92,7 @@
                                     <IconMail class="h-6 w-6 ml-2 -mt-0.5 text-slate-500" />
                                 </div>
                                 <input placeholder="info@domain.com"
-                                    class="transition-all duration-300 font-medium text-sm focus:ring-2 focus:ring-green-200 focus:border-green-500 border border-slate-200 py-5 pl-16 w-full outline-none placeholder:text-slate-600 rounded-full" />
+                                    class="transition-all duration-300 font-medium text-sm focus:ring-2 focus:ring-green-200 focus:border-green-600 border border-slate-200 py-5 pl-16 w-full outline-none placeholder:text-slate-600 rounded-full" />
                                 <button
                                     class="absolute right-2 top-1/2 -translate-y-1/2 bg-green-400 hover:bg-green-300 transition-all duration-300 flex justify-center items-center w-12 h-12 rounded-full">
                                     <IconChevronRight class="w-2" />

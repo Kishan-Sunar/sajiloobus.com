@@ -19,7 +19,7 @@ defineProps({
                             <p class="text-sm">
                                 Already have an account?
                                 <span @click="$emit('openLogin'); $emit('close')"
-                                    class="cursor-pointer text-green-600 hover:text-green-500 font-semibold">Login</span>
+                                    class="cursor-pointer text-green-600 hover:text-green-600 font-semibold">Login</span>
                             </p>
                         </div>
                         <button
@@ -53,13 +53,13 @@ defineProps({
                                 <input id="tandc" type="checkbox" class="h-6 w-6 accent-green-600" />
                                 <label for="tandc" class="text-sm cursor-pointer select-none">
                                     Agree to
-                                    <router-link to="#" class="text-green-600 font-semibold hover:text-green-500">terms
+                                    <router-link to="#" class="text-green-600 font-semibold hover:text-green-600">terms
                                         and
                                         conditions</router-link>
                                 </label>
                             </div>
                             <button
-                                class="px-8 py-4 rounded-full text-white bg-green-500 hover:bg-green-600 flex justify-between gap-x-6 items-center">
+                                class="px-8 py-4 rounded-full text-white bg-green-600 hover:bg-green-600 flex justify-between gap-x-6 items-center">
                                 <span class="text-base font-medium">Next</span>
                                 <IconChevronRight class="h-4" />
                             </button>

@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: [],
     content: [
         "./components/**/*.{js,vue,ts}",
         "./layouts/**/*.vue",
@@ -12,7 +11,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                "montserrat": "Montserrat",
+                montserrat: "Montserrat",
             },
         },
         container: {
@@ -26,4 +25,3 @@ export default {
     },
     plugins: [],
 };
-
