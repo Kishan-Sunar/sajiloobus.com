@@ -9,12 +9,14 @@ let city = ref('')
 </script>
 
 <template>
-    <header class="py-4 pb-10 container mx-auto flex flex-col gap-y-5 bg-green-600">
-        <nuxt-link to="./" class="font-medium flex items-center justify-start gap-x-2 hover:opacity-70 text-white">
-            <LazyIconChevronRight class="h-4 rotate-180" />
-            Back
-        </nuxt-link>
-        <h3 class="text-2xl text-white font-semibold">Add Boarding / Dropping Points</h3>
+    <header class="py-4 border-b">
+        <div class="container mx-auto flex justify-between items-center">
+            <nuxt-link to="./" class="font-medium flex items-center justify-start gap-x-2 hover:opacity-70">
+                <LazyIconChevronRight class="h-4 rotate-180" />
+                Back
+            </nuxt-link>
+            <h3 class="text-2xl font-semibold">Add Boarding / Dropping Points</h3>
+        </div>
     </header>
     <div class="bg-white relative rounded-t-3xl py-5 -mt-6">
         <div class="container mx-auto">

@@ -1,13 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
+export default {
     devtools: { enabled: true },
-    modules: [
-        "@nuxtjs/tailwindcss",
-        "@pinia/nuxt",
-        "@pinia-plugin-persistedstate/nuxt",
-    ],
+    css: ["~/assets/css/tailwind.css"],
     components: [
         { path: "~/components/icons/", prefix: "Icon" },
-        "~/components",
+        "@/components",
     ],
-});
+    postcss: {
+        plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
+        },
+    },
+    modules: ["@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "nuxt-icon"],
+};

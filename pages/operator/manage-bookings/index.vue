@@ -5,10 +5,12 @@ definePageMeta({
 </script>
 
 <template>
-    <header class="py-4 pb-10 container mx-auto flex justify-between items-center bg-green-600">
-        <h3 class="text-xl text-white font-semibold">Manage Bookings</h3>
+    <header class="py-4 border-b">
+        <div class="container mx-auto flex justify-between items-center">
+            <h3 class="text-xl font-semibold">Manage Bookings</h3>
+        </div>
     </header>
-    <div class="bg-white rounded-t-3xl py-5 pb-28 -mt-6">
+    <div class="bg-white py-5 pb-28">
         <div class="container mx-auto">
             <header class="flex items-center justify-between">
                 <h4 class="font-medium text-lg">20/ 200 Records</h4>

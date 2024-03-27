@@ -7,15 +7,16 @@ const addNewItem = ref(false)
 </script>
 
 <template>
-    <header class="py-4 pb-10 container mx-auto flex justify-between items-center bg-green-600">
-        <h3 class="text-xl text-white font-semibold">Manage Amenties</h3>
-        <button @click="addNewItem = true"
-            class="flex items-center gap-x-1 px-1 pr-4 text-sm font-medium py-1.5 transition-all duration-300 hover:bg-white/90 bg-white rounded-full shadow-md">
-            <IconPlus class="h-9" />
-            Add new
-        </button>
+    <header class="py-4 border-b">
+        <div class="container mx-auto flex justify-between items-center">
+            <h3 class="text-xl font-semibold">Manage Amenties</h3>
+            <button @click="addNewItem = true"
+                class="transition-all duration-300 hover:scale-105 hover:opacity-75 rounded-full">
+                <Icon name="i-ph:plus-circle-fill" size="40" color="green" />
+            </button>
+        </div>
     </header>
-    <div class="bg-white rounded-t-3xl py-5 -mt-6">
+    <div class="bg-white py-5">
         <div class="container mx-auto">
             <div class="flex mb-5 items-center justify-between">
                 <h4 class="font-medium text-lg">1 / 5 Amenties</h4>
