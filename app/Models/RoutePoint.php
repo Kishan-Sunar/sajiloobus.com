@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Location extends Model
+class RoutePoint extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'city',
-        'city_code',
-        'name',
-        'lat',
-        'lng',
+        'schedule_id',
+        'location_id',
+        'type',
     ];
 }

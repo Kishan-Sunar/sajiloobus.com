@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\RoutePointController;
 use App\Http\Controllers\ScheduleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('/bus-photos', BusPhotoController::class);
     Route::resource('/locations', LocationsController::class);
     Route::resource('/schedule', ScheduleController::class);
+    Route::resource('/route-point', RoutePointController::class);
 });
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register-passenger', [PassengerController::class, 'store']);
@@ -42,3 +44,4 @@ Route::get('/buses', [BusController::class, 'buses']);
 Route::get('/bus-gallery', [BusPhotoController::class, "showGallery"]);
 Route::get('/all-location', [LocationsController::class, "allLocations"]);
 Route::get('/all-schedule', [ScheduleController::class, "allSchedules"]);
+Route::get('/all-route-point', [RoutePointController::class, "allRoutePoints"]);

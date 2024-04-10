@@ -38,6 +38,7 @@ class LocationsController extends Controller
     {
         $location = Location::create([
             'city'=> $request->city,
+            'city_code'=> $request->city_code,
             'name'=> $request->name,
             'lat'=> $request->lat,
             'lng'=> $request->lng,
@@ -70,6 +71,7 @@ class LocationsController extends Controller
     {
         $location = Location::find($request->id);
         $location->city = $request->city;
+        $location->city_code = $request->city_code;
         $location->name = $request->name;
         $location->lat = $request->lat;
         $location->lng = $request->lng;

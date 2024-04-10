@@ -25,6 +25,7 @@ class ScheduleController extends Controller
     {
         //
     }
+
     public function allSchedules() {
         $schedule = Schedule::all();
         return (new ScheduleResource($schedule, 'Success'));
