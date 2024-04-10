@@ -14,7 +14,14 @@ class BusController extends Controller
      */
     public function index()
     {
-        //
+        $buses = Bus::all();
+        return (new BusResource($buses, 'Added successfully'));
+    }
+
+    public function buses()
+    {
+        $buses = Bus::all();
+        return (new BusResource($buses, 'Added successfully'));
     }
 
     /**

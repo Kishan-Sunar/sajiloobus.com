@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('model', 200);
             $table->string('company', 255);
             $table->string('type', 200);
+            $table->string('grid_size', 200);
             $table->unsignedBigInteger('operator_id');
             $table->foreign("operator_id")->references('id')->on('bus_operators')->onDelete('cascade');
             $table->timestamps();

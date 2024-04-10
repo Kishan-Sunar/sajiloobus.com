@@ -9,7 +9,7 @@ use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\AmenityController;
 use \App\Http\Controllers\BusTypeController;
 use \App\Http\Controllers\BusController;
-
+use App\Http\Controllers\BusPhotoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,8 +28,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/add-amenity', [AmenityController::class, 'store']);
     Route::resource('/bus-types', BusTypeController::class);
     Route::resource('/bus', BusController::class);
+    Route::resource('/bus-photos', BusPhotoController::class);
 });
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register-passenger', [PassengerController::class, 'store']);
 Route::post('/register-operator', [BusOperatorController::class, 'store']);
 Route::post('/register-admin', [AdminController::class, 'store']);
+Route::get('/buses', [BusController::class, 'buses']);
+Route::get('/bus-gallery', [BusPhotoController::class, "showGallery"]);

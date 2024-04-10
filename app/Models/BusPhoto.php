@@ -5,15 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BusType extends Model
+class BusPhoto extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'model',
-        'company',
-        'type',
-        'operator_id',
-        'grid_size'
+        'title',
+        'photo_path',
+        'bus_no',
     ];
 }

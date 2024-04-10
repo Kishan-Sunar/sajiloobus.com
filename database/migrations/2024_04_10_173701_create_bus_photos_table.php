@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bus_schedules', function (Blueprint $table) {
+        Schema::create('bus_photos', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 200);
-            $table->string("start_point", 200);
-            $table->dateTime("departure_time");
-            $table->string("end_point", 200);
-            $table->dateTime("arrival_time");
-            $table->double("fare");
-            $table->longText("notes");
+            $table->string('title', 200)->nullable();
+            $table->longText('photo_path')->nullable();
             $table->string("bus_no");
             $table->foreign("bus_no")->references('bus_no')->on('buses')->onDelete('cascade');
             $table->timestamps();
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bus_schedules');
+        Schema::dropIfExists('bus_photos');
     }
 };

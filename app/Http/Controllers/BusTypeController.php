@@ -36,7 +36,8 @@ class BusTypeController extends Controller
             'model' => $request->model,
             'company' => $request->company,
             'type' => $request->type,
-            'operator_id' => $request->operator
+            'operator_id' => $request->operator,
+            'grid_size' => $request->grid_size,
         ]);
         return (new BusTypeResource($busType, 'Added successfully'))->additional([
             "message" => "Bus type added successfully"
@@ -69,6 +70,7 @@ class BusTypeController extends Controller
         $busType->model = $request->model;
         $busType->company = $request->company;
         $busType->type = $request->type;
+        $busType->grid_size = $request->grid_size;
         $busType->save();
         return (new BusTypeResource($busType, 'Updated successfully'))->additional([
             "message" => "Bus type updated successfully"
