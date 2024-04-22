@@ -28,6 +28,7 @@ Route::resource('/schedule', ScheduleController::class);
 Route::resource('/route-point', RoutePointController::class);
 Route::resource('/passenger', PassengerController::class);
 Route::resource('/operator', BusOperatorController::class);
+Route::resource('/amenities', AmenityController::class);
 Route::post('/update-user-photo', [UserController::class, 'updateProfilePhoto']);
 Route::post('/change-password', [UserController::class, 'changePassword']);
 Route::resource('/admin', AdminController::class);

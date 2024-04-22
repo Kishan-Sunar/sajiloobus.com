@@ -10,6 +10,6 @@ class Amenity extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'icon_path'
+        'svg_icon'
     ];
 }

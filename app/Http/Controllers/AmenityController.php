@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAmentiesRequest;
+use App\Http\Requests\StoreUpdateAmentiesRequest;
 use App\Http\Resources\AmenityResource;
 use App\Models\Amenity;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class AmenityController extends Controller
      */
     public function index()
     {
-        //
+        $amenities = Amenity::all();
+        return (new AmenityResource($amenities));
     }
 
     /**
@@ -32,9 +34,9 @@ class AmenityController extends Controller
     {
         $amenity = Amenity::create([
             'name' => $request->name,
-            'icon_path' => $request->icon_path
+            'svg_icon' => $request->svg_icon
         ]);
-        return (new AmenityResource($amenity, 'Added successfully'));
+        return (new AmenityResource($amenity));
     }
 
     /**
@@ -42,7 +44,6 @@ class AmenityController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -56,9 +57,13 @@ class AmenityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreUpdateAmentiesRequest $request, string $id)
     {
-        //
+        $amenty = Amenity::find($id);
+        $amenty->name = $request->name;
+        $amenty->svg_icon = $request->svg_icon;
+        $amenty->save();
+        return (new AmenityResource($amenty));
     }
 
     /**
@@ -66,6 +71,8 @@ class AmenityController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $amenty = Amenity::find($id);
+        $amenty->delete();
+        return (new AmenityResource($amenty));
     }
 }

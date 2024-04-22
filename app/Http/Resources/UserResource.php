@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'contact' => $this->contact,
             'full_name' => $this->full_name,
             'email' => $this->email,
+            'role' => $this->role,
             'profile_photo_path' => $url
         ];
     }

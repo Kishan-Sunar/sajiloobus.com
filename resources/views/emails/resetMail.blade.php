@@ -53,8 +53,7 @@
 <body>
     <div class="container">
         <h1>Reset Code</h1>
-        <p>Title: {{ $mailData['title'] }}</p>
-        <p>Reset Code: <span class="reset-code">{{ $mailData['token'] }}</span></p>
+        <p><span class="reset-code">{{ $mailData['token'] }}</span></p>
     </div>
 </body>
 
