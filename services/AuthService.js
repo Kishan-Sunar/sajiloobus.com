@@ -30,6 +30,13 @@ export const useAuthService = () => {
             });
         },
 
+        async registerAdmin(data) {
+            return useApiFetch("/api/register-admin", {
+                method: "POST",
+                body: data,
+            });
+        },
+
         async logout(data) {
             return await useApiFetch("/api/logout", {
                 method: "POST",

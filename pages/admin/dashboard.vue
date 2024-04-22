@@ -1,7 +1,7 @@
 <script setup>
 definePageMeta({
-    layout: "operator",
-    middleware: ["operator-auth"],
+    layout: "admin",
+    middleware: ["auth"],
 });
 // Tab
 const currentTab = ref("basic");

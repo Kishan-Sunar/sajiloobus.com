@@ -1,6 +1,8 @@
 export default defineNuxtRouteMiddleware((to, from) => {
     const { isLoggedIn } = useAuthentication();
-    if (!isLoggedIn.value) {
+    const userStore = useUserStore();
+    const {hasRole} = storeToRefs(userStore);
+    if (!isLoggedIn.value && hasRole.value != "passenger") {
         return navigateTo("/");
-    }
+    } 
 });

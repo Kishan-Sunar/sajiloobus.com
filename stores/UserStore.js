@@ -4,6 +4,7 @@ import { useUserService } from "~/services/UserService";
 export const useUserStore = defineStore("user-store", {
     state: () => ({
         user: {},
+        hasRole: '',
         pending: false,
         uploadingProfilePhoto: false,
         isVerified: false,
@@ -17,7 +18,7 @@ export const useUserStore = defineStore("user-store", {
         resetEmail: ''
     }),
     persist: {
-        paths: ["user", "accessToken", "isVerified"],
+        paths: ["user", "hasRole", "accessToken", "isVerified"],
     },
 
     actions: {
@@ -27,6 +28,7 @@ export const useUserStore = defineStore("user-store", {
             const response = await useAuthService().login(data);
             if (response.data) {
                 this.user = response.data;
+                this.hasRole = response.data.role;
                 this.accessToken = response.access_token;
                 this.isVerified = response.is_verified;
             }
@@ -54,6 +56,7 @@ export const useUserStore = defineStore("user-store", {
             const response = await useAuthService().googleLogin(formData);
             if (response.data) {
                 this.user = response.data;
+                this.hasRole = response.data.role;
                 this.accessToken = response.access_token;
                 this.isVerified = response.is_verified;
             }
@@ -70,6 +73,7 @@ export const useUserStore = defineStore("user-store", {
 
                 if (response.data) {
                     this.user = response.data;
+                    this.hasRole = response.data.role;
                     this.isVerified = response.data.is_verified;
                 }
                 this.pending = response.pending;
@@ -87,6 +91,25 @@ export const useUserStore = defineStore("user-store", {
 
                 if (response.data) {
                     this.user = response.data;
+                    this.hasRole = response.data.role;
+                    this.isVerified = response.data.is_verified;
+                }
+                this.pending = response.pending;
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async registerAdmin(data) {
+            this.pending = true;
+            try {
+                await this.csrf();
+                const response = await useAuthService().registerAdmin(data);
+
+                if (response.data) {
+                    this.user = response.data;
+                    this.hasRole = response.data.role;
                     this.isVerified = response.data.is_verified;
                 }
                 this.pending = response.pending;
