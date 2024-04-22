@@ -2,6 +2,48 @@
 definePageMeta({
     layout: 'nolayout',
 })
+const modalStore = useModalStore();
+const { currentModal } = storeToRefs(modalStore);
+const { $notificationStore, $userStore } = useNuxtApp();
+import { object, string } from "yup";
+const { type, pending } = storeToRefs($userStore);
+const { handleSubmit, setErrors, resetForm } = useForm({
+    validationSchema: object({
+        email: string()
+            .required("Email is required")
+            .email("Please enter valid email address"),
+        password: string()
+            .required("Password is required")
+            .min(8, "Password must be at least 8 characters"),
+    }),
+});
+const login = handleSubmit(async (values) => {
+    try {
+        await $userStore.signIn({
+            email: values.email,
+            password: values.password,
+        });
+        navigateTo("/operator/dashboard");
+        $notificationStore.pushNotification(
+            "Logged in successfully!",
+            "success"
+        );
+        resetForm();
+    } catch (error) {
+        console.log(error);
+        $notificationStore.pushNotification(
+            "Invalid email or password",
+            "danger"
+        );
+    } finally {
+        pending.value = false;
+    }
+});
+defineProps({
+    show: {
+        required: true,
+    },
+});
 </script>
 
 <template>
@@ -20,36 +62,35 @@ definePageMeta({
                             </p>
                         </header>
                         <div class="space-y-4">
-                            <div class="flex bg-white rounded-2xl shadow-sm divide-x">
-                                <div class="w-16 py-3 flex justify-center items-center">
-                                    <icon-mail class="h-5" />
-                                </div>
-                                <div class="px-3 py-3">
-                                    <label for="email" class="block font-medium text-sm">Email</label>
-                                    <input id="email" class="w-full outline-none" type="email"
-                                        placeholder="info@deshdarshan.com" />
-                                </div>
-                            </div>
-                            <div class="flex bg-white rounded-2xl shadow-sm divide-x">
-                                <div class="w-16 py-3 flex justify-center items-center">
-                                    <icon-lock class="h-6" />
-                                </div>
-                                <div class="px-3 py-3">
-                                    <label for="password" class="block font-medium text-sm">Password</label>
-                                    <input id="password" class="w-full outline-none" type="password"
-                                        placeholder="password" />
-                                </div>
-                            </div>
+                            <base-input name="email" type="email" placeholder="Enter your email" class="h-14 px-14">
+                                <template #icon>
+                                    <Icon name="i-heroicons:user" size="25" class="absolute text-gray-500" />
+                                </template>
+                            </base-input>
+                            <base-input name="password" :type="type" placeholder="Password" class="h-14 px-14">
+                                <template #icon>
+                                    <Icon
+                                        :name="type === 'password' ? 'i-heroicons:lock-closed' : 'i-heroicons:lock-open'"
+                                        size="25" class="absolute text-gray-500" />
+                                    <Icon v-if="type === 'password'" name="heroicons:eye" size="24"
+                                        class="absolute cursor-pointer right-4 w-5 text-gray-500"
+                                        @click="$userStore.togglePassword()" />
+                                    <Icon v-else name="heroicons:eye-slash" size="24"
+                                        class="absolute cursor-pointer right-4 w-5 text-gray-500"
+                                        @click="$userStore.togglePassword()" />
+                                </template>
+                            </base-input>
                             <div>
-                                <nuxt-link to="/" class="font-medium text-sm text-white hover:opacity-60">
+                                <button @click="modalStore.toggleModal('reset-email')"
+                                    class="font-medium text-sm text-white hover:opacity-60">
                                     Forgot Password ?
-                                </nuxt-link>
+                                </button>
                             </div>
                             <div>
-                                <nuxt-link to="/operator/manage-bus"
+                                <button @click="login"
                                     class="py-5 font-medium text-md w-full flex justify-center items-center px-2 rounded-2xl text-white bg-green-600 hover:bg-green-600 transition-all duration-300">
                                     Login
-                                </nuxt-link>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -60,4 +101,7 @@ definePageMeta({
             </div>
         </div>
     </main>
+    <OperatorResetEmail :show="currentModal == 'reset-email'" />
+    <OperatorResetCode :show="currentModal == 'reset-code'" />
+    <OperatorResetPassword :show="currentModal == 'reset-password'" />
 </template>

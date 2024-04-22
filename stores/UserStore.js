@@ -1,3 +1,4 @@
+import { useAuthService } from "~/services/AuthService.js";
 import { useUserService } from "~/services/UserService";
 
 export const useUserStore = defineStore("user-store", {
@@ -42,12 +43,14 @@ export const useUserStore = defineStore("user-store", {
                 }
             });
             const imageBlob = await useDownloadImage(userInfo.picture);
-            const profilePhoto = new File([imageBlob], 'image.jpg', { type: imageBlob.type })
             const formData = new FormData();
             formData.append('authuser', data.authuser);
             formData.append('name', userInfo.name);
             formData.append('email', userInfo.email);
-            formData.append('profile_photo', profilePhoto);
+            if(imageBlob) {
+                const profilePhoto = new File([imageBlob], 'image.jpg', { type: imageBlob.type })
+                formData.append('profile_photo', profilePhoto);
+            }
             const response = await useAuthService().googleLogin(formData);
             if (response.data) {
                 this.user = response.data;
@@ -59,11 +62,28 @@ export const useUserStore = defineStore("user-store", {
         },
         
 
-        async register(data) {
+        async registerPassenger(data) {
             this.pending = true;
             try {
                 await this.csrf();
                 const response = await useAuthService().register(data);
+
+                if (response.data) {
+                    this.user = response.data;
+                    this.isVerified = response.data.is_verified;
+                }
+                this.pending = response.pending;
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async registerOperator(data) {
+            this.pending = true;
+            try {
+                await this.csrf();
+                const response = await useAuthService().registerOperator(data);
 
                 if (response.data) {
                     this.user = response.data;

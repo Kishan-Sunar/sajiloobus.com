@@ -24,7 +24,7 @@ const resetPassword = handleSubmit(async (values) => {
             email: resetEmail.value,
             password: values.password
         });
-        modalStore.toggleModal('login')
+        modalStore.toggleModal('none')
         $notificationStore.pushNotification(
             "Password successfully updated!",
             "success"

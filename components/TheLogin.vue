@@ -1,10 +1,9 @@
 <script setup>
 const modalStore = useModalStore();
 const { currentModal } = storeToRefs(modalStore);
-const { $notificationStore } = useNuxtApp();
+const { $notificationStore, $userStore } = useNuxtApp();
 import { object, string } from "yup";
-const passengerStore = usePassengerStore();
-const { type, pending } = storeToRefs(passengerStore);
+const { type, pending } = storeToRefs($userStore);
 const { handleSubmit, setErrors, resetForm } = useForm({
     validationSchema: object({
         email: string()
@@ -17,7 +16,7 @@ const { handleSubmit, setErrors, resetForm } = useForm({
 });
 const login = handleSubmit(async (values) => {
     try {
-        await usePassengerStore().signIn({
+        await $userStore.signIn({
             email: values.email,
             password: values.password,
         });
@@ -78,10 +77,10 @@ defineProps({
                                     size="25" class="absolute text-gray-500" />
                                 <Icon v-if="type === 'password'" name="heroicons:eye" size="24"
                                     class="absolute cursor-pointer right-4 w-5 text-gray-500"
-                                    @click="passengerStore.togglePassword()" />
+                                    @click="$userStore.togglePassword()" />
                                 <Icon v-else name="heroicons:eye-slash" size="24"
                                     class="absolute cursor-pointer right-4 w-5 text-gray-500"
-                                    @click="passengerStore.togglePassword()" />
+                                    @click="$userStore.togglePassword()" />
                             </template>
                         </base-input>
                         <div class="mb-2">

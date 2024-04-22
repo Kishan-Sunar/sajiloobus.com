@@ -2,6 +2,53 @@
 definePageMeta({
     layout: 'nolayout',
 })
+
+import { object, string } from "yup";
+const { $notificationStore, $userStore } = useNuxtApp();
+const { type, pending } = storeToRefs($userStore);
+
+const { handleSubmit, setErrors, resetForm } = useForm({
+    validationSchema: object({
+        name: string(),
+        contact: string().required("Contact is required"),
+        address: string().required("Address is required"),
+        email: string()
+            .required("Email is required")
+            .email("Please enter valid email address"),
+        password: string()
+            .required("Password is required")
+            .min(8, "Password must be at least 8 characters"),
+    }),
+});
+
+const register = handleSubmit(async (values) => {
+    try {
+        await $userStore.registerOperator({
+            name: values.name,
+            full_name: values.full_name,
+            email: values.email,
+            password: values.password,
+            address: values.address,
+            contact: values.contact,
+        });
+        $notificationStore.pushNotification(
+            "Registered successfully!",
+            "success"
+        );
+        navigateTo('/operator/dashboard');
+        resetForm();
+    } catch (error) {
+        if (error.data.errors) {
+            setErrors(error.data.errors);
+        }
+        $notificationStore.pushNotification(
+            "Something went wrong!",
+            "danger"
+        );
+    } finally {
+        pending.value = false;
+    }
+});
 </script>
 
 <template>
@@ -20,60 +67,65 @@ definePageMeta({
                             </p>
                         </header>
                         <div class="space-y-4">
-                            <div class="flex bg-white rounded-2xl shadow-sm divide-x">
-                                <div class="w-16 py-3 flex justify-center items-center">
-                                    <icon-person-v2 class="h-7" />
+                            <base-input name="name" type="text" placeholder="Username" aria-autocomplete="false"
+                                class="h-14 px-14">
+                                <template #icon>
+                                    <Icon name="i-heroicons:user" size="25" class="absolute text-gray-500" />
+                                </template>
+                            </base-input>
+                            <base-input name="full_name" type="text" placeholder="Fullname" class="h-14 px-14">
+                                <template #icon>
+                                    <Icon name="i-heroicons:user-circle" size="25" class="absolute text-gray-500" />
+                                </template>
+                            </base-input>
+
+                            <base-input name="email" type="email" placeholder="Enter your email" class="h-14 px-14">
+                                <template #icon>
+                                    <Icon name="i-heroicons:envelope-open" size="25" class="absolute text-gray-500" />
+                                </template>
+                            </base-input>
+
+                            <base-input name="contact" type="text" placeholder="Enter your contact" class="h-14 px-14">
+                                <template #icon>
+                                    <Icon name="i-heroicons:phone" size="25" class="absolute text-gray-500" />
+                                </template>
+                            </base-input>
+
+                            <base-input name="address" type="text" placeholder="Enter your address" class="h-14 px-14">
+                                <template #icon>
+                                    <Icon name="i-heroicons:map" size="25" class="absolute text-gray-500" />
+                                </template>
+                            </base-input>
+
+                            <base-input name="password" :type="type" placeholder="Password" class="h-14 px-14">
+                                <template #icon>
+                                    <Icon
+                                        :name="type === 'password' ? 'i-heroicons:lock-closed' : 'i-heroicons:lock-open'"
+                                        size="25" class="absolute text-gray-500" />
+                                    <Icon v-if="type === 'password'" name="heroicons:eye" size="24"
+                                        class="absolute cursor-pointer right-4 w-5 text-gray-500"
+                                        @click="$userStore.togglePassword()" />
+                                    <Icon v-else name="heroicons:eye-slash" size="24"
+                                        class="absolute cursor-pointer right-4 w-5 text-gray-500"
+                                        @click="$userStore.togglePassword()" />
+                                </template>
+                            </base-input>
+                            <div class="flex gap-4 flex-col sm:flex-row items-center justify-between">
+                                <div class="flex items-center gap-x-4">
+                                    <input id="tandc" type="checkbox" class="h-6 w-6 accent-green-600" />
+                                    <label for="tandc" class="text-sm text-white cursor-pointer select-none">
+                                        Agree to
+                                        <router-link to="#"
+                                            class="text-green-600 font-semibold hover:text-green-600">terms
+                                            and
+                                            conditions</router-link>
+                                    </label>
                                 </div>
-                                <div class="px-3 py-3">
-                                    <span class="block font-medium text-sm">Name</span>
-                                    <input class="w-full outline-none" type="text" placeholder="Desh Darshan" />
-                                </div>
-                            </div>
-                            <div class="flex bg-white rounded-2xl shadow-sm divide-x">
-                                <div class="w-16 py-3 flex justify-center items-center">
-                                    <icon-mail class="h-7" />
-                                </div>
-                                <div class="px-3 py-3">
-                                    <span class="block font-medium text-sm">Email</span>
-                                    <input class="w-full outline-none" type="email"
-                                        placeholder="info@deshdarshan.com" />
-                                </div>
-                            </div>
-                            <div class="flex bg-white rounded-2xl shadow-sm divide-x">
-                                <div class="w-16 py-3 flex justify-center items-center">
-                                    <icon-contact class="h-7" />
-                                </div>
-                                <div class="px-3 py-3">
-                                    <span class="block font-medium text-sm">Mobile Number</span>
-                                    <input class="w-full outline-none" type="text" placeholder="9824125457" />
-                                </div>
-                            </div>
-                            <div class="flex bg-white rounded-2xl shadow-sm divide-x">
-                                <div class="w-16 py-3 flex justify-center items-center">
-                                    <icon-map-marker class="h-7" />
-                                </div>
-                                <div class="px-3 py-3">
-                                    <span class="block font-medium text-sm">Location</span>
-                                    <input class="w-full outline-none" type="text" placeholder="Surkhet" />
-                                </div>
-                            </div>
-                            <div>
-                                <label
-                                    class="text-white text-sm font-medium flex items-center gap-x-3 select-none cursor-pointer">
-                                    <input type="checkbox" class="accent-green-600 h-6 w-6 cursor-pointer">
-                                    <div>
-                                        Accept
-                                        <nuxt-link to="/" class="text-green-600 hover:opacity-60">
-                                            terms and conditions
-                                        </nuxt-link>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="pt-6">
-                                <nuxt-link to="/operator/login"
-                                    class="py-5 font-medium text-md w-full flex justify-center items-center px-2 rounded-2xl text-white bg-green-600 hover:bg-green-600 transition-all duration-300">
-                                    Submit
-                                </nuxt-link>
+                                <button @click="register"
+                                    class="px-8 py-4 rounded-full text-white bg-green-600 hover:bg-green-600 flex justify-between gap-x-6 items-center">
+                                    <span class="text-base font-medium">Next</span>
+                                    <IconChevronRight class="h-4" />
+                                </button>
                             </div>
                         </div>
                     </div>

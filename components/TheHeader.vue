@@ -1,9 +1,9 @@
 <script setup>
 import { onClickOutside } from "@vueuse/core";
+const { $notificationStore, $userStore } = useNuxtApp();
 const modalStore = useModalStore();
 const { currentModal } = storeToRefs(modalStore);
-const userStore = usePassengerStore();
-const { user } = storeToRefs(userStore);
+const { user } = storeToRefs($userStore);
 const auth = useAuthentication();
 const { isLoggedIn } = storeToRefs(auth);
 let showLoginModal = ref(false);
@@ -169,7 +169,7 @@ onClickOutside(
                                                                 </IconMyPayments>
                                                             </template>
                                                         </base-dropdown-item>
-                                                        <base-dropdown-item @action="userStore.logout()" label="Logout"
+                                                        <base-dropdown-item @action="$userStore.logout()" label="Logout"
                                                             link="#">
                                                             <template #icon>
                                                                 <IconLogout class="h-6">

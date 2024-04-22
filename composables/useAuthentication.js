@@ -1,5 +1,5 @@
 export function useAuthentication() {
-    const store = usePassengerStore();
+    const store = useUserStore();
     const { user } = storeToRefs(store);
     const isLoggedIn = computed(() => {
         return !!user.value.id;

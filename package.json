@@ -13,6 +13,7 @@
         "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
         "@pinia/nuxt": "^0.5.1",
         "@vee-validate/nuxt": "^4.12.6",
+        "@vee-validate/yup": "^4.12.6",
         "@vuepic/vue-datepicker": "^8.2.0",
         "@vueuse/core": "^10.9.0",
         "nuxt": "^3.10.3",

@@ -1,10 +1,9 @@
 <script setup>
 import { object, string } from "yup";
-const { $notificationStore } = useNuxtApp();
-const passengerStore = usePassengerStore();
-const { type, pending } = storeToRefs(passengerStore);
+const { $notificationStore, $userStore } = useNuxtApp();
+const { type, pending } = storeToRefs($userStore);
 const modalStore = useModalStore();
-const {currentModal} = storeToRefs(modalStore);
+const { currentModal } = storeToRefs(modalStore);
 defineProps({
     show: {
         required: true,
@@ -25,7 +24,7 @@ const { handleSubmit, setErrors, resetForm } = useForm({
 
 const register = handleSubmit(async (values) => {
     try {
-        await usePassengerStore().register({
+        await $userStore.registerPassenger({
             name: values.name,
             full_name: values.full_name,
             email: values.email,
@@ -75,72 +74,45 @@ const register = handleSubmit(async (values) => {
                         </button>
                     </header>
                     <div class="flex flex-col gap-y-3 mb-5">
-                        <base-input
-                            name="name"
-                            type="text"
-                            placeholder="Username"
-                            aria-autocomplete="false"
-                            class="h-14 px-14"
-                        >
+                        <base-input name="name" type="text" placeholder="Username" aria-autocomplete="false"
+                            class="h-14 px-14">
                             <template #icon>
-                                 <Icon name="i-heroicons:user" size="25" class="absolute text-gray-500"/>
+                                <Icon name="i-heroicons:user" size="25" class="absolute text-gray-500" />
                             </template>
                         </base-input>
-                        <base-input
-                            name="full_name"
-                            type="text"
-                            placeholder="Fullname"
-                            class="h-14 px-14"
-                        >
+                        <base-input name="full_name" type="text" placeholder="Fullname" class="h-14 px-14">
                             <template #icon>
-                                 <Icon name="i-heroicons:user-circle" size="25" class="absolute text-gray-500"/>
+                                <Icon name="i-heroicons:user-circle" size="25" class="absolute text-gray-500" />
                             </template>
                         </base-input>
 
-                        <base-input
-                            name="email"
-                            type="email"
-                            placeholder="Enter your email"
-                            class="h-14 px-14"
-                        >
+                        <base-input name="email" type="email" placeholder="Enter your email" class="h-14 px-14">
                             <template #icon>
-                                <Icon name="i-heroicons:envelope-open" size="25" class="absolute text-gray-500"/>
+                                <Icon name="i-heroicons:envelope-open" size="25" class="absolute text-gray-500" />
                             </template>
                         </base-input>
-                        
-                        <base-select name="gender" selected="male" >
+
+                        <base-select name="gender" selected="male">
                             <template #icon>
-                                <IconGender class="absolute h-6 text-gray-500"/>
+                                <IconGender class="absolute h-6 text-gray-500" />
                             </template>
                             <template #options>
-                                <option value=""  disabled selected>Gender</option>
+                                <option value="" disabled selected>Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
                             </template>
                         </base-select>
-                        <base-input
-                            name="password"
-                            :type="type"
-                            placeholder="Password"
-                            class="h-14 px-14"
-                        >
+                        <base-input name="password" :type="type" placeholder="Password" class="h-14 px-14">
                             <template #icon>
-                                <Icon :name="type === 'password' ? 'i-heroicons:lock-closed' : 'i-heroicons:lock-open'" size="25" class="absolute text-gray-500"/>
-                                <Icon
-                                    v-if="type === 'password'"
-                                    name="heroicons:eye"
-                                    size="24"
+                                <Icon :name="type === 'password' ? 'i-heroicons:lock-closed' : 'i-heroicons:lock-open'"
+                                    size="25" class="absolute text-gray-500" />
+                                <Icon v-if="type === 'password'" name="heroicons:eye" size="24"
                                     class="absolute cursor-pointer right-4 w-5 text-gray-500"
-                                    @click="passengerStore.togglePassword()"
-                                />
-                                <Icon
-                                    v-else
-                                    name="heroicons:eye-slash"
-                                    size="24"
+                                    @click="$userStore.togglePassword()" />
+                                <Icon v-else name="heroicons:eye-slash" size="24"
                                     class="absolute cursor-pointer right-4 w-5 text-gray-500"
-                                    @click="passengerStore.togglePassword()"
-                                />
+                                    @click="$userStore.togglePassword()" />
                             </template>
                         </base-input>
                         <div class="flex gap-4 flex-col sm:flex-row items-center justify-between">
@@ -153,8 +125,7 @@ const register = handleSubmit(async (values) => {
                                         conditions</router-link>
                                 </label>
                             </div>
-                            <button
-                                @click="register"
+                            <button @click="register"
                                 class="px-8 py-4 rounded-full text-white bg-green-600 hover:bg-green-600 flex justify-between gap-x-6 items-center">
                                 <span class="text-base font-medium">Next</span>
                                 <IconChevronRight class="h-4" />

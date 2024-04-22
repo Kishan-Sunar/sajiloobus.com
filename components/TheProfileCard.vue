@@ -1,15 +1,17 @@
 <script setup>
+const { $notificationStore, $userStore } = useNuxtApp();
 const passengerStore = usePassengerStore();
 passengerStore.passengerDetails();
-const { user, passenger } = storeToRefs(passengerStore);
+const { passenger } = storeToRefs(passengerStore);
+const { user } = storeToRefs($userStore)
 const previewImage = ref('')
 async function handelFileUpload(event) {
     const profilePhoto = event.target.files[0]
     const formData = new FormData()
-    formData.append('user',)
-    formData.append('profile_photo_path', profilePhoto)
+    formData.append('user_id', user.value.id)
+    formData.append('profile_photo', profilePhoto)
     try {
-        const response = await passengerStore.updateUserProfilePhoto(formData)
+        const response = await $userStore.updateUserProfilePhoto(formData)
         $notificationStore.pushNotification(response.message)
     } catch (error) {
         if (error.status === 422) $notificationStore.pushNotification(error.data.message, 'danger')
