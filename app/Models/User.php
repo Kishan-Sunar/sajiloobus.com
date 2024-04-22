@@ -27,6 +27,8 @@ class User extends Authenticatable
         'status',
         'profile_photo_path',
         'password',
+        'provider',
+        'provider_id'
     ];
 
     /**
@@ -51,15 +53,18 @@ class User extends Authenticatable
         'status' => UserStatus::class,
     ];
 
-    public function isAdmin(): bool {
+    public function isAdmin(): bool
+    {
         return $this->role === UserRole::ADMIN;
     }
 
-    public function isPassenger(): bool {
+    public function isPassenger(): bool
+    {
         return $this->role === UserRole::PASSENGER;
     }
 
-    public function isOperator(): bool {
+    public function isOperator(): bool
+    {
         return $this->role === UserRole::OPERATOR;
     }
 }

@@ -23,6 +23,8 @@ return new class extends Migration
             $table->enum('role', UserRole::getValues())->default(UserRole::PASSENGER);
             $table->enum('status', UserStatus::getValues())->default(UserStatus::ACTIVE);
             $table->string('profile_photo_path')->nullable();
+            $table->string('provider')->nullable();
+            $table->integer('provider_id')->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
         });

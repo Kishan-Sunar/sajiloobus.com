@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Http\Requests\StorePassengerRequest;
+use App\Http\Resources\PassengerResource;
 use App\Http\Resources\UserResource;
 use App\Models\Passenger;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Socialite\Facades\Socialite;
 
 class PassengerController extends Controller
 {
@@ -39,9 +42,9 @@ class PassengerController extends Controller
             'full_name' => $request->full_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role'=> UserRole::PASSENGER,
-            'status'=> UserStatus::ACTIVE,
-            'profile_photo_path'=> $request->profile_photo_path
+            'role' => UserRole::PASSENGER,
+            'status' => UserStatus::ACTIVE,
+            'profile_photo_path' => $request->profile_photo_path
         ]);
         $passenger = Passenger::create([
             'user_id' => $user->id,
@@ -50,7 +53,7 @@ class PassengerController extends Controller
             'address' => $request->address
         ]);
         $accessToken = $user->createToken('accessToken');
-        return (new UserResource($user, 'SignUp successfully'))->additional(
+        return (new UserResource($user))->additional(
             [
                 'accessToken' => $accessToken->plainTextToken,
                 'is_verified' => $user->hasVerifiedEmail(),
@@ -58,12 +61,52 @@ class PassengerController extends Controller
         );
     }
 
+
+    public function authGoogle(Request $request)
+    {
+        if (User::where('provider_id', $request->authuser)->exists()) {
+            $user = User::where('provider_id', $request->authuser)->first();
+            $accessToken = $user->createToken('accessToken');
+            return (new UserResource($user))->additional(
+                [
+                    'accessToken' => $accessToken->plainTextToken,
+                    'is_verified' => $user->hasVerifiedEmail(),
+                ]
+            );
+        } else {
+            if ($request->hasFile('profile_photo')) {
+                $image = $request->file('profile_photo');
+                $profile = $image->storePublicly('profiles', 'public');
+            }
+            $user = User::create([
+                'name' => $request->name,
+                'full_name' => $request->name,
+                'email' => $request->email,
+                'provider' => 'Gmail',
+                'provider_id' => $request->authuser,
+                'password' => Hash::make('password'),
+                'profile_photo_path' => $profile ?? null,
+                'role' => UserRole::PASSENGER,
+                'status' => UserStatus::ACTIVE,
+            ]);
+            $accessToken = $user->createToken('accessToken');
+            return (new UserResource($user))->additional(
+                [
+                    'accessToken' => $accessToken->plainTextToken,
+                    'is_verified' => $user->hasVerifiedEmail(),
+                ]
+            );
+        }
+    }
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $passenger = Passenger::where('user_id', $id)->first();
+        $user = User::find($id);
+        return (new PassengerResource($passenger))->additional(['user' => $user]);
     }
 
     /**
@@ -79,7 +122,19 @@ class PassengerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::find($request->id);
+        $user->name = $request->name;
+        $user->full_name = $request->full_name;
+        $user->email = $request->email;
+        $user->save();
+        $passenger = Passenger::where('user_id', $user->id)->first();
+        $passenger->gender = $request->gender;
+        $passenger->contact = $request->contact;
+        $passenger->address = $request->address;
+        $passenger->save();
+        return (new UserResource($user))->additional([
+            "message" => "Updated successfully"
+        ]);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Http\Requests\StoreAdminRequest;
+use App\Http\Resources\AdminResource;
 use App\Http\Resources\UserResource;
 use App\Models\Admin;
 use App\Models\User;
@@ -39,9 +40,9 @@ class AdminController extends Controller
             'full_name' => $request->full_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role'=> UserRole::ADMIN,
-            'status'=> UserStatus::ACTIVE,
-            'profile_photo_path'=> $request->profile_photo_path
+            'role' => UserRole::ADMIN,
+            'status' => UserStatus::ACTIVE,
+            'profile_photo_path' => $request->profile_photo_path
         ]);
         $admin = Admin::create([
             'user_id' => $user->id,
@@ -63,7 +64,9 @@ class AdminController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $admin = Admin::where('user_id', $id)->first();
+        $user = User::find($id);
+        return (new AdminResource($admin))->additional(['user' => $user]);
     }
 
     /**

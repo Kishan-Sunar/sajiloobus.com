@@ -13,31 +13,32 @@ use \App\Http\Controllers\AmenityController;
 use \App\Http\Controllers\BusTypeController;
 use \App\Http\Controllers\BusController;
 use App\Http\Controllers\BusPhotoController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+use App\Http\Controllers\UserController;
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-    Route::post('/add-amenity', [AmenityController::class, 'store']);
-    Route::resource('/bus-types', BusTypeController::class);
-    Route::resource('/bus', BusController::class);
-    Route::resource('/bus-photos', BusPhotoController::class);
-    Route::resource('/locations', LocationsController::class);
-    Route::resource('/schedule', ScheduleController::class);
-    Route::resource('/route-point', RoutePointController::class);
+// Route::middleware(['auth:sanctum'])->group(function () {
+Route::get('/user', function (Request $request) {
+    return $request->user();
 });
+Route::post('/add-amenity', [AmenityController::class, 'store']);
+Route::resource('/bus-types', BusTypeController::class);
+Route::resource('/bus', BusController::class);
+Route::resource('/bus-photos', BusPhotoController::class);
+Route::resource('/locations', LocationsController::class);
+Route::resource('/schedule', ScheduleController::class);
+Route::resource('/route-point', RoutePointController::class);
+Route::resource('/passenger', PassengerController::class);
+Route::resource('/operator', BusOperatorController::class);
+Route::post('/update-user-photo', [UserController::class, 'updateProfilePhoto']);
+Route::post('/change-password', [UserController::class, 'changePassword']);
+Route::resource('/admin', AdminController::class);
+// });
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/reset-code', [AuthController::class, 'resetCode']);
+Route::post('/verify-code', [AuthController::class, 'verifyCode']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register-passenger', [PassengerController::class, 'store']);
+Route::post('/auth-google', [PassengerController::class, 'authGoogle']);
 Route::post('/register-operator', [BusOperatorController::class, 'store']);
 Route::post('/register-admin', [AdminController::class, 'store']);
 Route::get('/buses', [BusController::class, 'buses']);

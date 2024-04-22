@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign("user_id")->references('id')->on('users')->onDelete('cascade');
-            $table->string('address', 200);
-            $table->string('contact', 11);
+            $table->string('address', 200)->nullable();
+            $table->string('contact', 11)->nullable();
             $table->enum('gender', Gender::getValues())->default(Gender::MALE);
             $table->date('dob')->nullable();
             $table->timestamps();

@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\PasswordResetResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
+use App\Mail\ResetCodeMail;
+use App\Models\PasswordReset;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -15,7 +20,7 @@ class AuthController extends Controller
     {
         $request->authenticate();
         $user = User::where('email', $request->email)->first();
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
@@ -23,9 +28,46 @@ class AuthController extends Controller
         $accessToken = $user->createToken('accessToken')->plainTextToken;
         return (new UserResource($user))->additional(
             [
-                'accessToken' => $accessToken,
+                'access_token' => $accessToken,
                 'is_verified' => $user->hasVerifiedEmail(),
             ]
         );
+    }
+
+    public function resetCode(Request $request)
+    {
+        $token = str()->random(10);
+        $resetCode = PasswordReset::where('email', $request->email)->first();
+        if ($resetCode) {
+            $resetCode->delete();
+        }
+        PasswordReset::create(['email' => $request->email, 'token' => $token]);
+        $mailData = [
+            'title' => 'Mail from sajiloobus.com',
+            'token' => $token
+        ];
+        Mail::to($request->email)->send(new ResetCodeMail($mailData));
+    }
+
+    public function verifyCode(Request $request)
+    {
+        $verify = PasswordReset::where('token', $request->token)->first();
+        if ($verify) {
+            return (new PasswordResetResource($verify))->additional([
+                'success' => true
+            ]);
+        } else {
+            return response()->json(['success' => false], 404);
+        }
+    }
+
+    public function ResetPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return (new UserResource($user))->additional([
+            'success' => true
+        ]);
     }
 }

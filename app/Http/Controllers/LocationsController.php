@@ -18,7 +18,8 @@ class LocationsController extends Controller
         //
     }
 
-    public function allLocations() {
+    public function allLocations()
+    {
         $locations = Location::all();
         return (new LocationResource($locations, 'Success'));
     }
@@ -37,11 +38,11 @@ class LocationsController extends Controller
     public function store(StoreLocationRequest $request)
     {
         $location = Location::create([
-            'city'=> $request->city,
-            'city_code'=> $request->city_code,
-            'name'=> $request->name,
-            'lat'=> $request->lat,
-            'lng'=> $request->lng,
+            'city' => $request->city,
+            'city_code' => $request->city_code,
+            'name' => $request->name,
+            'lat' => $request->lat,
+            'lng' => $request->lng,
         ]);
         return (new LocationResource($location, 'Added successfully'))->additional([
             "message" => "Location added successfully"
@@ -75,7 +76,8 @@ class LocationsController extends Controller
         $location->name = $request->name;
         $location->lat = $request->lat;
         $location->lng = $request->lng;
-        return (new BusPhotoResource($location, 'Updated successfully'))->additional([
+        $location->save();
+        return (new BusPhotoResource($location))->additional([
             "message" => "Updated successfully"
         ]);
     }
