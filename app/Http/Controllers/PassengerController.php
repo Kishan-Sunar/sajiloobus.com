@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Http\Requests\StorePassengerRequest;
+use App\Http\Requests\StoreProfileUpdateRequest;
 use App\Http\Resources\PassengerResource;
 use App\Http\Resources\UserResource;
 use App\Models\Passenger;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -89,6 +91,9 @@ class PassengerController extends Controller
                 'role' => UserRole::PASSENGER,
                 'status' => UserStatus::ACTIVE,
             ]);
+            $passenger = Passenger::create([
+                'user_id' => $user->id,
+            ]);
             $accessToken = $user->createToken('accessToken');
             return (new UserResource($user))->additional(
                 [
@@ -120,10 +125,9 @@ class PassengerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreProfileUpdateRequest $request, int $id)
     {
-        $user = User::find($request->id);
-        $user->name = $request->name;
+        $user = User::find($id);
         $user->full_name = $request->full_name;
         $user->email = $request->email;
         $user->save();
@@ -131,6 +135,9 @@ class PassengerController extends Controller
         $passenger->gender = $request->gender;
         $passenger->contact = $request->contact;
         $passenger->address = $request->address;
+        if ($request->dob) {
+            $passenger->dob = new Carbon($request->dob);
+        }
         $passenger->save();
         return (new UserResource($user))->additional([
             "message" => "Updated successfully"
