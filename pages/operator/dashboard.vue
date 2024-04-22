@@ -7,17 +7,13 @@ const currentTab = ref("basic");
 </script>
 
 <template>
-    <div class="bg-white rounded-t-3xl py-5">
+    <div class="bg-slate-50 py-5">
         <div class="container mx-auto">
-            <h3 class="text-xl mb-5 pt-2 pb-5">
-                <span class="block font-semibold">Overall Balance</span>
-                <span
-                    class="bg-clip-text font-bold text-4xl text-transparent bg-gradient-to-r from-green-600 to-yellow-600"
-                >
-                    NPR 90,0000
-                </span>
-            </h3>
-            <div class="border mb-5 grid sm:grid-cols-3 rounded-xl">
+            <div class="chart">
+              Test
+            </div>
+
+            <div class="border bg-white mb-5 grid sm:grid-cols-3 rounded-xl">
                 <div
                     class="rounded-t-xl sm:rounded-t-0 sm:rounded-l-xl py-5 px-4"
                 >

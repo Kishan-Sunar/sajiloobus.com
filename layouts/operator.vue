@@ -4,9 +4,12 @@
     <main class="h-dvh w-dvw overflow-y-auto">
         <div class="grid grid-cols-[350px_1fr] mx-auto">
             <OperatorAsideBar />
-            <div class="flex flex-col justify-between relative bg-white h-[100vh] w-full overflow-hidden">
-                <div class="h-full  overflow-y-auto">
-                    <div class="bg-white">
+            <div
+                class="flex flex-col justify-between relative bg-slate-50 h-[100vh] w-full overflow-hidden"
+            >
+                <OperatorNavBar />
+                <div class="h-full overflow-y-auto">
+                    <div>
                         <slot></slot>
                     </div>
                 </div>

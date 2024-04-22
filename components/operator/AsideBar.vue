@@ -1,58 +1,67 @@
 <script setup></script>
 
 <template>
-    <div class="flex px-2 py-4 flex-col gap-y-4 justify-between h-[100vh] border-r">
-        <div class="flex flex-col gap-y-4">
-            <header class="z-10 mb-2 relative px-4">
-                <IconLogo class="h-10" />
-            </header>
-        </div>
-        <div class="mb-auto  overflow-y-auto">
+    <div class="flex flex-col pt-4 gap-y-4 justify-between h-[100vh] border-r">
+        <header class="z-10 mb-2 relative px-4">
+            <IconLogo class="h-10" />
+        </header>
+        <div class="mb-auto px-4 overflow-y-auto">
             <div class="relative space-y-2">
+                <span class="mb-2 text-xs font-semibold pl-4">Main menu</span>
                 <OperatorAsideLink label="Dashboard" href="/operator/dashboard">
                     <template #icon>
-                        <IconDashboard class="h-[3rem]" />
+                        <IconDashboard class="h-6" />
                     </template>
                 </OperatorAsideLink>
-                <OperatorAsideLink label="Manage Bus" href="/operator/manage-bus">
-
+                <OperatorAsideLink
+                    label="Manage Bus"
+                    href="/operator/manage-bus"
+                >
                     <template #icon>
-                        <IconBus class="h-[3rem]" />
+                        <IconBus class="h-6" />
                     </template>
                 </OperatorAsideLink>
-                <OperatorAsideLink label="Manage Amenties" href="/operator/manage-amenties">
-
+                <OperatorAsideLink
+                    label="Manage Amenties"
+                    href="/operator/manage-amenties"
+                >
                     <template #icon>
-                        <IconAmenties class="h-[3rem]" />
+                        <IconAmenties class="h-6" />
                     </template>
                 </OperatorAsideLink>
-                <OperatorAsideLink label="Manage Cities" href="/operator/manage-cities">
-
+                <OperatorAsideLink
+                    label="Manage Cities"
+                    href="/operator/manage-cities"
+                >
                     <template #icon>
-                        <IconCities class="h-[3rem]" />
+                        <IconCities class="h-6" />
                     </template>
                 </OperatorAsideLink>
-                <OperatorAsideLink label="Manage Schedules" href="/operator/manage-schedules">
-
+                <OperatorAsideLink
+                    label="Manage Schedules"
+                    href="/operator/manage-schedules"
+                >
                     <template #icon>
-                        <IconSchedule class="h-[3rem]" />
+                        <IconSchedule class="h-6" />
                     </template>
                 </OperatorAsideLink>
-                <OperatorAsideLink label="Manage Bookings" href="/operator/manage-bookings" badge="12">
-
+                <OperatorAsideLink
+                    label="Manage Bookings"
+                    href="/operator/manage-bookings"
+                    badge="12"
+                >
                     <template #icon>
-                        <IconBooking class="h-[3rem]" />
+                        <IconBooking class="h-6" />
                     </template>
                 </OperatorAsideLink>
                 <OperatorAsideLink label="Settings" href="/operator/setting">
-
                     <template #icon>
-                        <IconCog class="h-[3rem]" />
+                        <IconCog class="h-6" />
                     </template>
                 </OperatorAsideLink>
             </div>
         </div>
-        <div class="flex flex-col items-center">
+        <div class="flex border-t py-4 flex-col items-center">
             <h4 class="font-medium text-md">Sajiloobus.com</h4>
             <span class="opacity-60 text-sm">for bus owner</span>
         </div>
