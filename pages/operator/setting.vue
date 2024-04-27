@@ -1,14 +1,15 @@
 <script setup>
 definePageMeta({
-    layout: 'operator'
+    layout: 'operator',
+    middleware: ["operator-auth"],
 })
 // Tab
 const currentTab = ref('basic');
 </script>
 
 <template>
-    <header class="py-4 border-b">
-        <div class="container mx-auto flex justify-between items-center">
+    <header class="py-4 bg-green-600 border-b">
+        <div class="container mx-auto flex flex-col justify-between items-start">
             <h3 class="text-xl mb-8 text-white font-semibold">Settings</h3>
             <div class="overflow-x-auto w-full pb-2">
                 <div class="flex gap-x-5">

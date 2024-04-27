@@ -1,4 +1,49 @@
-<script setup></script>
+<script setup>
+const route = useRoute()
+const query = route.query;
+const modalStore = useModalStore()
+const { currentModal } = storeToRefs(modalStore);
+const { $notificationStore, $userStore } = useNuxtApp();
+const payWithEsewa = async () => {
+    try {
+        const response = await useApiFetch('/api/paywithesewa');
+        console.log(response.data)
+    } catch {
+
+    }
+}
+if (query.status == 'success') {
+    modalStore.toggleModal('khati-success')
+}
+const payWithKhalti = async () => {
+    try {
+        const response = await $fetch('https://a.khalti.com/api/v2/epayment/initiate/', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'key 10e8e4832ae244dbac2d0a2727d5c0db',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "return_url": "http://localhost:3000/search/payment?status=success",
+                "website_url": "http://localhost:3000",
+                "amount": "36000",
+                "purchase_order_id": "Order100",
+                "purchase_order_name": "Ticket Booking",
+                "customer_info": {
+                    "name": "Sajiloobus.com",
+                    "email": "info@sajiloobus.com",
+                    "phone": "9824125457"
+                }
+            })
+        });
+        const success = await navigateTo(response.payment_url, {
+            external: true
+        });
+    } catch {
+
+    }
+}
+</script>
 
 <template>
     <TheBookingSteps activePage="payment" />
@@ -25,6 +70,30 @@
                                     </div>
                                 </div>
                             </button>
+                            <div class="py-4 px-4">
+                                <button type="button" @click="payWithKhalti()"
+                                    class="border-b active:bg-slate-100 w-full py-4 px-6">
+                                    <div class="flex items-center justify-between gap-x-4">
+                                        <div class="flex gap-2 items-center justify-center">
+                                            <IconKhalti class="w-8 text-[#5e338d]"></IconKhalti>
+                                            <span class="font-medium text-lg">Pay with
+                                                Khalti</span>
+                                        </div>
+                                        <span class="font-semibold">RS: 3600</span>
+                                    </div>
+                                </button>
+                                <div class="border-b active:bg-slate-100 w-full py-4 px-6">
+                                    <div class="flex items-center justify-between gap-x-4">
+                                        <div class="flex gap-2 items-center justify-center">
+                                            <span class="h-8 w-8 flex justify-center items-center">
+                                                <input type="checkbox" class="h-6 w-6">
+                                            </span>
+                                            <span class="font-medium text-lg">Pay while travelling</span>
+                                        </div>
+                                        <span class="font-semibold">RS: 3600</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <div class="px-6 py-6">
@@ -134,4 +203,7 @@
             </div>
         </div>
     </section>
+    <ModalsStatusAlert message="Payment done" description="Payment successfully done. And your booking is confirmed"
+        :show="currentModal == 'khati-success'">
+    </ModalsStatusAlert>
 </template>

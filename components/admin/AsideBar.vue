@@ -23,7 +23,7 @@
                         <IconAmenties class="h-6" />
                     </template>
                 </AdminAsideLink>
-                <AdminAsideLink label="Manage Cities" href="/admin/manage-cities">
+                <AdminAsideLink label="Manage Locations" href="/admin/manage-locations">
                     <template #icon>
                         <IconCities class="h-6" />
                     </template>
@@ -47,7 +47,7 @@
         </div>
         <div class="flex border-t py-4 flex-col items-center">
             <h4 class="font-medium text-md">Sajiloobus.com</h4>
-            <span class="opacity-60 text-sm">for bus owner</span>
+            <span class="opacity-60 text-sm">for Admin</span>
         </div>
     </div>
 </template>

@@ -1,6 +1,6 @@
-import { useAmentyService } from "~/services/AmentyService.js";
+import { useBusService } from "~/services/BusService.js";
 
-export const useAmentyStore = defineStore("amenty-store", {
+export const useBusStore = defineStore("bus-store", {
     state: () => ({
         data: [],
         selected: [],
@@ -10,7 +10,7 @@ export const useAmentyStore = defineStore("amenty-store", {
     actions: {
         async getData() {
             this.pending = true;
-            const response = await useAmentyService().getData();
+            const response = await useBusService().getData();
             if (response.data) {
                 this.data = response.data;
             }
@@ -20,7 +20,7 @@ export const useAmentyStore = defineStore("amenty-store", {
 
         async save(data) {
             this.pending = true;
-            const response = await useAmentyService().saveData(data);
+            const response = await useBusService().saveData(data);
             if (response.data) {
                 this.getData();
             }
@@ -30,7 +30,7 @@ export const useAmentyStore = defineStore("amenty-store", {
 
          async update(data, id) {
             this.pending = true;
-            const response = await useAmentyService().update(data, id);
+            const response = await useBusService().update(data, id);
             if (response.data) {
                 this.getData();
             }
@@ -40,7 +40,7 @@ export const useAmentyStore = defineStore("amenty-store", {
 
         async delete(id) {
             this.pending = true;
-            const response = await useAmentyService().delete(id);
+            const response = await useBusService().delete(id);
             if (response.data) {
                 this.getData();
             }

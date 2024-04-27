@@ -36,6 +36,7 @@ const register = handleSubmit(async (values) => {
             "success"
         );
         navigateTo('/admin/dashboard');
+        useAdminStore().adminDetails()
         resetForm();
     } catch (error) {
         if (error.data.errors) {

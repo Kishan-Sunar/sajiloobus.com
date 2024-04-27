@@ -11,26 +11,14 @@
         <div class="relative pt-20">
             <div class="container mx-auto">
                 <SearchboxCard class="mb-4" />
-                <div class="flex flex-col gap-4 sm:items-center sm:flex-row justify-between">
-                    <h3 class="text-lg text-white/70">
-                        <strong class="text-white">174 Buses</strong>
-                        found
-                    </h3>
-                    <div class="flex gap-x-2">
-                        <button
-                            class="flex items-center gap-x-2 py-3 px-6 rounded-full bg-white/20 hover:bg-white/15 transition-all duration-300 text-white shadow-xl">
-                            <IconFilter class="w-6" />
-                            <span>Filter</span>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
     <section class="py-10 bg-slate-100">
         <div class="container mx-auto">
             <div class="flex flex-col gap-y-6">
-                <div v-for="item in [1, 2, 3, 4, 5, 6]" :key="item"
+                <div v-for="item in ['Sanjog Tours and Travels', 'Yarsha Tours and Travels', 'Gurung Tours and Travels', 'Kathmandu Tours and Travels', 'Thapa Tours and Travels', 'Damini Tours and Travels']"
+                    :key="item"
                     class="bg-white transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 shadow shadow-black/5 rounded-xl">
                     <div class="grid gap-x-5 gap-y-4 sm:grid-cols-4">
                         <div class="bg-slate-400 rounded-xl sm:rounded-r-none overflow-hidden relative">
@@ -42,7 +30,7 @@
                         </div>
                         <div class="sm:col-span-2">
                             <div class="py-4 px-4">
-                                <h3 class="font-semibold text-sky-950 mb-1 text-xl">Sanjog Tours and Travels</h3>
+                                <h3 class="font-semibold text-sky-950 mb-1 text-xl">{{ item }}</h3>
                                 <div class="flex items-center gap-x-4 mb-3">
                                     <div class="font-regular text-slate-600">Deluxe</div>
                                     <div class="flex items-center gap-x-2">

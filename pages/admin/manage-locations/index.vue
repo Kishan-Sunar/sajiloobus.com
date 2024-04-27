@@ -5,9 +5,9 @@ definePageMeta({
 });
 const modalStore = useModalStore();
 const { currentModal } = storeToRefs(modalStore);
-const amentyStore = useAmentyStore();
-amentyStore.getData();
-const { data, selected, searchData } = storeToRefs(amentyStore);
+const locationStore = useLocationStore();
+locationStore.getData();
+const { data, selected, searchData } = storeToRefs(locationStore);
 const addNewItem = ref(false)
 const searchQuery = ref('')
 </script>
@@ -15,7 +15,7 @@ const searchQuery = ref('')
 <template>
     <header class="py-4 border-b">
         <div class="container mx-auto flex justify-between items-center">
-            <h3 class="text-xl font-semibold">Manage Amenties</h3>
+            <h3 class="text-xl font-semibold">Manage Locations</h3>
             <button @click="modalStore.toggleModal('add')"
                 class="transition-all duration-300 hover:scale-105 hover:opacity-75 rounded-full">
                 <Icon name="i-ph:plus-circle-fill" size="40" color="green" />
@@ -25,7 +25,7 @@ const searchQuery = ref('')
     <div class="bg-white py-5">
         <div class="container mx-auto">
             <div class="flex mb-5 items-center justify-between">
-                <h4 class="font-medium text-lg">{{ data.length }} Amenties</h4>
+                <h4 class="font-medium text-lg">{{ data.length }} Locations</h4>
                 <div class="relative">
                     <IconSearchV2 class="h-6 text-slate-600 absolute top-1/2 -translate-y-1/2 left-4" />
                     <input type="text" v-model="searchQuery"
@@ -33,24 +33,41 @@ const searchQuery = ref('')
                         placeholder="Search query here" />
                 </div>
             </div>
-            <div class="grid sm:grid-cols-3 gap-x-2 gap-y-2">
-                <div v-if="searchData(searchQuery).length" v-for="item in searchData(searchQuery)" :key="item">
-                    <div class="px-4 py-2 rounded-xl border">
-                        <div class="grid grid-cols-2 items-center sm:grid-cols-[40px_repeat(2,1fr)] gap-y-2 gap-x-2">
-                            <div class="flex items-center text-green-600">
-                                <div class="h-8 w-8" v-html="item.svg_icon"></div>
+            <div class="flex flex-col gap-y-1">
+                <div v-if="searchData(searchQuery).length" v-for="item in searchData(searchQuery)" :key="item"
+                    class="py-4">
+                    <div class="pb-4 border-b">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-y-2 gap-x-6">
+                            <div class="flex flex-col gap-y-1">
+                                <h2 class="text-sm font-medium text-slate-500">
+                                    Location
+                                </h2>
+                                <span class="text-base font-medium">{{ item.name }}</span>
                             </div>
-                            <div>
-                                <span class="text-sm font-medium">{{ item.name }}</span>
+                            <div class="flex flex-col gap-y-1">
+                                <h2 class="text-sm font-medium text-slate-500">
+                                    City / Code
+                                </h2>
+                                <span class="text-base font-medium">
+                                    {{ item.city }} / {{ item.city_code }}
+                                </span>
                             </div>
-                            <div class="flex justify-end gap-x-1">
+                            <div class="flex flex-col gap-y-1">
+                                <h2 class="text-sm font-medium text-slate-500">
+                                    Latitude / Longitude
+                                </h2>
+                                <span class="text-base font-medium">
+                                    {{ item.lat }} / {{ item.lng }}
+                                </span>
+                            </div>
+                            <div class="flex justify-end gap-y-1">
                                 <SharedActionButton
-                                    @action="() => (amentyStore.selectData(item), modalStore.toggleModal('edit'))"
+                                    @action="() => (locationStore.selectData(item), modalStore.toggleModal('edit'))"
                                     title="Edit">
                                     <IconEdit class="h-5" />
                                 </SharedActionButton>
                                 <SharedActionButton
-                                    @action="() => (amentyStore.selectData(item), modalStore.toggleModal('delete'))"
+                                    @action="() => (locationStore.selectData(item), modalStore.toggleModal('delete'))"
                                     title="More options">
                                     <IconDelete class="h-5" />
                                 </SharedActionButton>
@@ -64,9 +81,9 @@ const searchQuery = ref('')
             </div>
         </div>
     </div>
-    <ModalsAmentyAdd :show="currentModal == 'add'" />
-    <ModalsAmentyEdit :show="currentModal == 'edit'" />
-    <ModalsAmentyDelete :show="currentModal == 'delete'" />
+    <ModalsLocationAdd :show="currentModal == 'add'" />
+    <ModalsLocationEdit :show="currentModal == 'edit'" />
+    <ModalsLocationDelete :show="currentModal == 'delete'" />
     <ClientOnly>
         <Teleport to="body">
             <!-- <AddAmentyModal @close-action="addNewItem = false" :show="addNewItem" /> -->

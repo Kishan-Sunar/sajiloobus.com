@@ -1,13 +1,14 @@
 <script setup>
 definePageMeta({
-    layout: 'operator'
+    layout: 'operator',
+    middleware: ["operator-auth"],
 })
 </script>
 
 <template>
     <header class="py-4 border-b">
         <div class="container mx-auto flex justify-between items-center">
-            <h3 class="text-xl text-white font-semibold">Manage Schedule</h3>
+            <h3 class="text-xl font-semibold">Manage Schedule</h3>
             <button
                 class="flex items-center gap-x-1 px-1 pr-4 text-sm font-medium py-1.5 transition-all duration-300 hover:bg-white/90 bg-white rounded-full shadow-md">
                 <IconPlus class="h-9" />

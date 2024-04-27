@@ -1,6 +1,7 @@
 <script setup>
 definePageMeta({
-    layout: 'operator'
+    layout: 'operator',
+    middleware: ["operator-auth"],
 })
 </script>
 

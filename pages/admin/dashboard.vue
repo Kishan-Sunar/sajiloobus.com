@@ -10,9 +10,6 @@ const currentTab = ref("basic");
 <template>
     <div class="bg-slate-50 py-5">
         <div class="container mx-auto">
-            <div class="chart">
-                Test
-            </div>
 
             <div class="border bg-white mb-5 grid sm:grid-cols-3 rounded-xl">
                 <div class="rounded-t-xl sm:rounded-t-0 sm:rounded-l-xl py-5 px-4">

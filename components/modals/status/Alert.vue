@@ -1,37 +1,16 @@
 <script setup>
 const modalStore = useModalStore();
 const { currentModal } = storeToRefs(modalStore);
-const amenityStore = useAmentyStore();
+const locationStore = useLocationStore();
 const { $notificationStore } = useNuxtApp();
 import { object, string } from "yup";
-const { type, selected, pending } = storeToRefs(amenityStore);
-const { handleSubmit, setErrors, resetForm } = useForm({
-    validationSchema: object({
-    }),
-});
-const deleteData = handleSubmit(async (values) => {
-    try {
-        await amenityStore.delete(selected.value.id);
-        $notificationStore.pushNotification(
-            "Deleted successfully!",
-            "success"
-        );
-        modalStore.toggleModal("none");
-        resetForm();
-    } catch (error) {
-        console.log(error);
-        $notificationStore.pushNotification(
-            "Something went wrong try again",
-            "danger"
-        );
-    } finally {
-        pending.value = false;
-    }
-});
+const { type, selected, pending } = storeToRefs(locationStore);
 defineProps({
     show: {
         required: true,
     },
+    message: string,
+    description: string
 });
 </script>
 
@@ -43,7 +22,7 @@ defineProps({
                 <div class="relative flex flex-col gap-y-4">
                     <header class="relative mb-3 w-full flex flex-row justify-between items-start gap-y-4">
                         <div class="flex flex-col gap-y-1">
-                            <h3 class="text-xl font-semibold">Delete amenity</h3>
+                            <h3 class="text-xl font-semibold">{{ message }}</h3>
                         </div>
                         <button
                             class="w-10 h-10 bg-transparent hover:bg-zinc-100 flex justify-center items-center rounded-full"
@@ -53,14 +32,13 @@ defineProps({
                     </header>
                     <div class="flex flex-col gap-y-3 mb-5">
                         <p class=" text-lg mb-4 text-zinc-500">
-                            Are you sure you want to delete this amenity?
+                            {{ description }}
                         </p>
                         <div class="flex gap-4 flex-col sm:flex-row items-center justify-between">
-                            <button @click="deleteData()"
-                                class="px-8 py-4 rounded-xl w-full text-white bg-red-600 hover:bg-red-600 flex justify-center gap-x-6 items-center">
-                                <IconDelete class="h-6" />
+                            <button @click="modalStore.toggleModal('none')"
+                                class="px-8 py-4 rounded-xl w-full text-white bg-slate-800 hover:bg-black flex justify-center gap-x-6 items-center">
                                 <span class="text-base font-medium">
-                                    {{ pending ? "Deleting" : "Delete Now" }}
+                                    Okay
                                 </span>
                             </button>
                         </div>

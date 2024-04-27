@@ -36,6 +36,7 @@ const register = handleSubmit(async (values) => {
             "success"
         );
         navigateTo('/operator/dashboard');
+        useOperatorStore().operatorDetails()
         resetForm();
     } catch (error) {
         if (error.data.errors) {

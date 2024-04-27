@@ -13,43 +13,17 @@
                         <IconDashboard class="h-6" />
                     </template>
                 </OperatorAsideLink>
-                <OperatorAsideLink
-                    label="Manage Bus"
-                    href="/operator/manage-bus"
-                >
+                <OperatorAsideLink label="Manage Bus" href="/operator/manage-bus">
                     <template #icon>
                         <IconBus class="h-6" />
                     </template>
                 </OperatorAsideLink>
-                <OperatorAsideLink
-                    label="Manage Amenties"
-                    href="/operator/manage-amenties"
-                >
-                    <template #icon>
-                        <IconAmenties class="h-6" />
-                    </template>
-                </OperatorAsideLink>
-                <OperatorAsideLink
-                    label="Manage Cities"
-                    href="/operator/manage-cities"
-                >
-                    <template #icon>
-                        <IconCities class="h-6" />
-                    </template>
-                </OperatorAsideLink>
-                <OperatorAsideLink
-                    label="Manage Schedules"
-                    href="/operator/manage-schedules"
-                >
+                <OperatorAsideLink label="Manage Schedules" href="/operator/manage-schedules">
                     <template #icon>
                         <IconSchedule class="h-6" />
                     </template>
                 </OperatorAsideLink>
-                <OperatorAsideLink
-                    label="Manage Bookings"
-                    href="/operator/manage-bookings"
-                    badge="12"
-                >
+                <OperatorAsideLink label="Manage Bookings" href="/operator/manage-bookings" badge="12">
                     <template #icon>
                         <IconBooking class="h-6" />
                     </template>

@@ -1,4 +1,6 @@
 <script setup>
+const bookingStore = useBookingStore();
+const { selectedSeat } = storeToRefs(bookingStore);
 const seats = [
   {
     seat_number: 'A1',
@@ -111,12 +113,14 @@ const seats = [
                 <div class="bg-slate-100 px-4 py-4 rounded-2xl w-full">
                   <div class="grid gap-6 grid-cols-5">
                     <div v-for="seat in seats" :key="seat.seat_number">
-                      <div v-if="seat.show" class="flex items-center flex-col gap-y-1s text-xs font-medium">
+                      <button @click="bookingStore.selectSeat(seat)"
+                        :disabled="seat.status == 'disabled' || seat.status == 'booked'" v-if="seat.show"
+                        class="flex items-center flex-col gap-y-1s text-xs font-medium">
                         <IconSeat
                           :class="{ 'text-green-600': seat.status == 'available', 'text-red-600': seat.status == 'booked', 'text-slate-400': seat.status == 'disabled' }"
                           class="h-14" />
                         <span class="font-medium text-slate-500">{{ seat.seat_number }}</span>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -170,7 +174,9 @@ const seats = [
                 </div>
                 <div class="flex flex-col gap-y-2">
                   <h3 class="text-green-600 font-medium">Selected Seats</h3>
-                  <span class="text-xl font-semibold">A13, A14, A15,</span>
+                  <span class="text-xl font-semibold">
+                    <span v-for="item in selectedSeat" :key="item">{{ item.seat_number }}</span>
+                  </span>
                 </div>
               </div>
               <div class="px-6 pt-6 pb-16">

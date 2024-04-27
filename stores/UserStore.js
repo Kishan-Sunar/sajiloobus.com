@@ -191,6 +191,8 @@ export const useUserStore = defineStore("user-store", {
             console.log(data);
             try {
                 this.user = "";
+                const userStore = useUserStore()
+                userStore.$reset()
                 navigateTo("/");
             } catch (error) {
                 this.user = null;

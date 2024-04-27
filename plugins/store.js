@@ -3,6 +3,8 @@ export default defineNuxtPlugin((NuxtApp) => {
         provide: {
             notificationStore: useNotificationStore(),
             userStore: useUserStore(),
+            adminStore: useAdminStore(),
+            operatorStore: useOperatorStore(),
         },
     };
 });

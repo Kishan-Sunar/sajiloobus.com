@@ -28,6 +28,7 @@ const login = handleSubmit(async (values) => {
             "Logged in successfully!",
             "success"
         );
+        useOperatorStore().operatorDetails()
         resetForm();
     } catch (error) {
         console.log(error);

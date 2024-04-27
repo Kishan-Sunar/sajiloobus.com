@@ -28,6 +28,7 @@ const login = handleSubmit(async (values) => {
             "Logged in successfully!",
             "success"
         );
+        useAdminStore().adminDetails()
         resetForm();
     } catch (error) {
         console.log(error);
