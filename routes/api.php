@@ -14,6 +14,7 @@ use \App\Http\Controllers\BusTypeController;
 use \App\Http\Controllers\BusController;
 use App\Http\Controllers\BusPhotoController;
 use App\Http\Controllers\UserController;
+use Xentixar\EsewaSdk\Esewa;
 
 // Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/user', function (Request $request) {

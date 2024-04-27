@@ -15,7 +15,8 @@ class LocationsController extends Controller
      */
     public function index()
     {
-        //
+        $locations = Location::all();
+        return (new LocationResource($locations));
     }
 
     public function allLocations()
@@ -70,7 +71,7 @@ class LocationsController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $location = Location::find($request->id);
+        $location = Location::find($id);
         $location->city = $request->city;
         $location->city_code = $request->city_code;
         $location->name = $request->name;

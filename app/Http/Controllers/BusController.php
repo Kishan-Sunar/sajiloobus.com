@@ -15,13 +15,13 @@ class BusController extends Controller
     public function index()
     {
         $buses = Bus::all();
-        return (new BusResource($buses, 'Added successfully'));
+        return (new BusResource($buses));
     }
 
-    public function buses()
+    public function buses(Request $request)
     {
-        $buses = Bus::all();
-        return (new BusResource($buses, 'Added successfully'));
+        $buses = Bus::where("operator_id", $request->id);
+        return (new BusResource($buses));
     }
 
     /**
@@ -38,13 +38,12 @@ class BusController extends Controller
     public function store(StoreBusRequest $request)
     {
         $bus = Bus::create([
-            'bus_no'=> $request->bus_no,
+            'bus_no' => $request->bus_no,
             "name" => $request->name,
-            "featured_photo_path" => $request->featured_photo_path,
             "operator_id" => $request->operator_id,
             "bus_type" => $request->bus_type
         ]);
-        return (new BusResource($bus, 'Added successfully'))->additional([
+        return (new BusResource($bus))->additional([
             "message" => "Bus added successfully"
         ]);
     }

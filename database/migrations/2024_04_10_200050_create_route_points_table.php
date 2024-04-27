@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('location_id');
+
             $table->enum('type', RouteType::getValues())->default(RouteType::BOARD);
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');

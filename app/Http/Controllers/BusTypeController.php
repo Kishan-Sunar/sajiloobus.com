@@ -15,7 +15,8 @@ class BusTypeController extends Controller
      */
     public function index()
     {
-        //
+        $busTypes = BusType::all();
+        return BusTypeResource::collection($busTypes);
     }
 
     /**
@@ -36,10 +37,10 @@ class BusTypeController extends Controller
             'model' => $request->model,
             'company' => $request->company,
             'type' => $request->type,
-            'operator_id' => $request->operator,
+            'operator_id' => $request->operator_id,
             'grid_size' => $request->grid_size,
         ]);
-        return (new BusTypeResource($busType, 'Added successfully'))->additional([
+        return (new BusTypeResource($busType))->additional([
             "message" => "Bus type added successfully"
         ]);
     }
@@ -84,7 +85,7 @@ class BusTypeController extends Controller
     {
         $busType = BusType::find($id);
         $busType->delete();
-        return (new BusTypeResource($busType, 'Deleted successfully'))->additional([
+        return (new BusTypeResource($busType))->additional([
             "message" => "Bus type deleted successfully"
         ]);
     }

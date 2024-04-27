@@ -23,3 +23,23 @@ php artisan make:controller PasswordResetController --resource
 php artisan make:model PasswordReset
 php artisan make:request StorePasswordResetRequest
 php artisan make:resource PasswordResetResource
+
+
+php artisan make:migration create_reviews_table
+php artisan make:controller ReviewController --resource
+php artisan make:model PasswordReset
+php artisan make:request StoreReviewRequest
+php artisan make:resource ReviewResource
+
+
+php artisan make:migration create_booked_seats_table
+php artisan make:controller BookedSeatController --resource
+php artisan make:model BookedSeat
+php artisan make:request StoreBookedSeatRequest
+php artisan make:resource BookedSeatResource
+
+php artisan make:migration create_operator_docs_table
+php artisan make:controller OperatorDocController --resource
+php artisan make:model OperatorDoc
+php artisan make:request StoreOperatorDocRequest
+php artisan make:resource OperatorDocResource
