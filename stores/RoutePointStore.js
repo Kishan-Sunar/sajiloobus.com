@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { useBusService } from "~/services/BusService.js";
-export const useBusStore = defineStore("bus-store", {
+import { useRoutePointService } from "~/services/RoutePointService.js";
+export const useRoutePointStore = defineStore("route-point-store", {
     state: () => ({
         data: [],
         selected: [],
@@ -10,10 +10,10 @@ export const useBusStore = defineStore("bus-store", {
 
     actions: {
         async getData() {
-            const operatorStore = useOperatorStore();
-            const { operator } = storeToRefs(operatorStore);
+            const scheduleStore = useScheduleStore();
+            const { selected: selectedSchedule } = storeToRefs(scheduleStore);
             this.pending = true;
-            const response = await useBusService().getData(operator.value.id);
+            const response = await useRoutePointService().getData(selectedSchedule.value.id);
             if (response.data) {
                 this.data = response.data;
             }
@@ -23,7 +23,7 @@ export const useBusStore = defineStore("bus-store", {
 
         async save(data) {
             this.pending = true;
-            const response = await useBusService().saveData(data);
+            const response = await useRoutePointService().saveData(data);
             if (response) {
                 this.getData();
             }
@@ -33,7 +33,7 @@ export const useBusStore = defineStore("bus-store", {
 
          async update(data, id) {
             this.pending = true;
-            const response = await useBusService().update(data, id);
+            const response = await useRoutePointService().update(data, id);
             if (response) {
                 this.getData();
             }
@@ -43,7 +43,7 @@ export const useBusStore = defineStore("bus-store", {
 
         async delete(id) {
             this.pending = true;
-            const response = await useBusService().delete(id);
+            const response = await useRoutePointService().delete(id);
             if (response) {
                 this.getData();
             }
@@ -55,7 +55,7 @@ export const useBusStore = defineStore("bus-store", {
             this.uploadingFeaturedPhoto = true
             try {
                 await this.csrf();
-                const response = await useBusService().updateFeaturedPhoto(data)
+                const response = await useRoutePointService().updateFeaturedPhoto(data)
                 this.getData()
                 this.selected =  response.data;
                 return response

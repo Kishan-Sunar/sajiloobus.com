@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
-import { useLocationService } from "~/services/LocationService.js";
-
-export const useLocationStore = defineStore("location-store", {
+import { useScheduleService } from "~/services/ScheduleService.js";
+export const useScheduleStore = defineStore("schedule-store", {
     state: () => ({
         data: [],
         selected: [],
@@ -10,8 +9,10 @@ export const useLocationStore = defineStore("location-store", {
 
     actions: {
         async getData() {
+            const operatorStore = useOperatorStore();
+            const { operator } = storeToRefs(operatorStore);
             this.pending = true;
-            const response = await useLocationService().getData();
+            const response = await useScheduleService().getData(operator.value.id);
             if (response.data) {
                 this.data = response.data;
             }
@@ -21,7 +22,7 @@ export const useLocationStore = defineStore("location-store", {
 
         async save(data) {
             this.pending = true;
-            const response = await useLocationService().saveData(data);
+            const response = await useScheduleService().saveData(data);
             if (response.data) {
                 this.getData();
             }
@@ -31,7 +32,7 @@ export const useLocationStore = defineStore("location-store", {
 
          async update(data, id) {
             this.pending = true;
-            const response = await useLocationService().update(data, id);
+            const response = await useScheduleService().update(data, id);
             if (response.data) {
                 this.getData();
             }
@@ -41,7 +42,7 @@ export const useLocationStore = defineStore("location-store", {
 
         async delete(id) {
             this.pending = true;
-            const response = await useLocationService().delete(id);
+            const response = await useScheduleService().delete(id);
             if (response.data) {
                 this.getData();
             }
@@ -51,6 +52,10 @@ export const useLocationStore = defineStore("location-store", {
 
         selectData(data) {
             this.selected = data
+        },
+
+         async csrf() {
+            await useApiFetch("/sanctum/csrf-cookie");
         }
 
     },

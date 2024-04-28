@@ -1,17 +1,17 @@
-export const useBusService = () => {
+export const useScheduleService = () => {
     const runtimeConfig = useRuntimeConfig();
     return {
         async getData(operator_id) {
-            return useApiFetch("/api/bus-by-operator/"+operator_id);
+            return useApiFetch("/api/schedule-by-operator/"+operator_id);
         },
         async saveData(data) {
-            return useApiFetch("/api/bus", {
+            return useApiFetch("/api/schedules", {
                 method: "POST",
                 body: data
             })
         },
         async update(data, id) {
-            return useApiFetch("/api/bus/"+id, {
+            return useApiFetch("/api/schedules/"+id, {
                 method: "PATCH",
                 body: data
             })
@@ -23,7 +23,7 @@ export const useBusService = () => {
             });
         },
         async delete(id) {
-            return useApiFetch("/api/bus/"+id, {
+            return useApiFetch("/api/schedules/"+id, {
                 method: "DELETE"
             })
         }

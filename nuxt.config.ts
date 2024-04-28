@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default {
     devtools: { enabled: true },
-    css: ["~/assets/css/tailwind.css"],
+    css: ["~/assets/css/tailwind.css", 'primevue/resources/themes/aura-light-green/theme.css'],
     components: [
         { path: "~/components/icons/", prefix: "Icon" },
         "@/components",
@@ -18,6 +18,7 @@ export default {
         "@pinia-plugin-persistedstate/nuxt",
         "@vee-validate/nuxt",
         "nuxt-icon",
+        "nuxt-primevue",
     ],
     googleSignIn: {
         clientId:
@@ -38,4 +39,5 @@ export default {
     build: {
         transpile: ["pinia-plugin-persistedstate"],
     },
+    
 };

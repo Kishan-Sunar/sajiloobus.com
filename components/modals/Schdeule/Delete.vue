@@ -1,17 +1,17 @@
 <script setup>
 const modalStore = useModalStore();
 const { currentModal } = storeToRefs(modalStore);
-const busStore = useBusStore();
+const scheduleStore = useScheduleStore();
 const { $notificationStore } = useNuxtApp();
 import { object, string } from "yup";
-const { type, selected, pending } = storeToRefs(busStore);
+const { selected, pending } = storeToRefs(scheduleStore);
 const { handleSubmit, setErrors, resetForm } = useForm({
     validationSchema: object({
     }),
 });
 const deleteData = handleSubmit(async (values) => {
     try {
-        await busStore.delete(selected.value.bus_no);
+        await scheduleStore.delete(selected.value.id);
         $notificationStore.pushNotification(
             "Deleted successfully!",
             "success"
@@ -53,7 +53,7 @@ defineProps({
                     </header>
                     <div class="flex flex-col gap-y-3 mb-5">
                         <p class=" text-lg mb-4 text-zinc-500">
-                            Are you sure you want to delete this bus?
+                            Are you sure you want to delete this schedule?
                         </p>
                         <div class="flex gap-4 flex-col sm:flex-row items-center justify-between">
                             <button @click="deleteData()"

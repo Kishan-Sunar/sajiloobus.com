@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import { useLocationService } from "~/services/LocationService.js";
+import { useBusPhotoService } from "~/services/BusPhotoService.js";
 
-export const useLocationStore = defineStore("location-store", {
+export const useBusPhotoStore = defineStore("bus-photo-store", {
     state: () => ({
         data: [],
         selected: [],
@@ -11,7 +11,9 @@ export const useLocationStore = defineStore("location-store", {
     actions: {
         async getData() {
             this.pending = true;
-            const response = await useLocationService().getData();
+            const busStore = useBusStore();
+            const {selected} = storeToRefs(busStore);
+            const response = await useBusPhotoService().getData(selected.value.bus_no);
             if (response.data) {
                 this.data = response.data;
             }
@@ -21,17 +23,7 @@ export const useLocationStore = defineStore("location-store", {
 
         async save(data) {
             this.pending = true;
-            const response = await useLocationService().saveData(data);
-            if (response.data) {
-                this.getData();
-            }
-            this.pending = false;
-            return response;
-        },
-
-         async update(data, id) {
-            this.pending = true;
-            const response = await useLocationService().update(data, id);
+            const response = await useBusPhotoService().saveData(data);
             if (response.data) {
                 this.getData();
             }
@@ -41,7 +33,7 @@ export const useLocationStore = defineStore("location-store", {
 
         async delete(id) {
             this.pending = true;
-            const response = await useLocationService().delete(id);
+            const response = await useBusPhotoService().delete(id);
             if (response.data) {
                 this.getData();
             }

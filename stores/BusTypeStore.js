@@ -1,3 +1,4 @@
+import { defineStore } from "pinia";
 import { useBusTypeService } from "~/services/BusTypeService.js";
 
 export const useBusTypeStore = defineStore("bustype-store", {

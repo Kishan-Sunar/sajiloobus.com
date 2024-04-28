@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import { useLocationService } from "~/services/LocationService.js";
+import { useBusAmenityService } from "~/services/BusAmenityService.js";
 
-export const useLocationStore = defineStore("location-store", {
+export const useBusAmenitiesStore = defineStore("bus-amenty-store", {
     state: () => ({
         data: [],
         selected: [],
@@ -10,8 +10,10 @@ export const useLocationStore = defineStore("location-store", {
 
     actions: {
         async getData() {
+            const busStore = useBusStore();
+            const { selected:selectedBus } = storeToRefs(busStore);
             this.pending = true;
-            const response = await useLocationService().getData();
+            const response = await useBusAmenityService().getData(selectedBus.value.bus_no);
             if (response.data) {
                 this.data = response.data;
             }
@@ -21,7 +23,7 @@ export const useLocationStore = defineStore("location-store", {
 
         async save(data) {
             this.pending = true;
-            const response = await useLocationService().saveData(data);
+            const response = await useBusAmenityService().saveData(data);
             if (response.data) {
                 this.getData();
             }
@@ -31,7 +33,7 @@ export const useLocationStore = defineStore("location-store", {
 
          async update(data, id) {
             this.pending = true;
-            const response = await useLocationService().update(data, id);
+            const response = await useBusAmenityService().update(data, id);
             if (response.data) {
                 this.getData();
             }
@@ -39,9 +41,9 @@ export const useLocationStore = defineStore("location-store", {
             return response;
         },
 
-        async delete(id) {
+        async delete(bus_no, amenity_id) {
             this.pending = true;
-            const response = await useLocationService().delete(id);
+            const response = await useBusAmenityService().delete(bus_no, amenity_id);
             if (response.data) {
                 this.getData();
             }

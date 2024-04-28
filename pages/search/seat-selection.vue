@@ -1,93 +1,101 @@
 <script setup>
 const bookingStore = useBookingStore();
 const { selectedSeat } = storeToRefs(bookingStore);
-const seats = [
-  {
-    seat_number: 'A1',
-    show: true,
-    status: 'available'
-  },
-  {
-    seat_number: 'A2',
-    show: true,
-    status: 'disabled'
-  },
-  {
-    seat_number: '-',
-    show: false,
-    status: 'disabled'
-  },
-  {
-    seat_number: 'B1',
-    show: true,
-    status: 'disabled'
-  },
-  {
-    seat_number: 'B2',
-    show: true,
-    status: 'available'
-  },
-  {
-    seat_number: 'A3',
-    show: true,
-    status: 'disabled'
-  },
-  {
-    seat_number: 'A4',
-    show: true,
-    status: 'available'
-  },
-  {
-    seat_number: '-',
-    show: false,
-    status: 'disabled'
-  },
-  {
-    seat_number: 'B3',
-    show: true,
-    status: 'available'
-  },
-  {
-    seat_number: 'B4',
-    show: true,
-    status: 'booked'
-  },
-  {
-    seat_number: 'A5',
-    show: true,
-    status: 'available'
-  },
-  {
-    seat_number: 'A6',
-    show: true,
-    status: 'available'
-  },
-  {
-    seat_number: 'A7',
-    show: true,
-    status: 'available'
-  },
-  {
-    seat_number: 'B5',
-    show: true,
-    status: 'available'
-  },
-  {
-    seat_number: 'B6',
-    show: true,
-    status: 'booked'
-  }
-]
+const searchStore = useSearchStore();
+const { selected: selectedData } = storeToRefs(searchStore);
+if (!selectedData.value.id) {
+  navigateTo('/search')
+}
+const seats = (row, col) => {
+  return [
+    {
+      seat_number: 'A1',
+      show: true,
+      status: 'available'
+    },
+    {
+      seat_number: 'A2',
+      show: true,
+      status: 'disabled'
+    },
+    {
+      seat_number: '-',
+      show: false,
+      status: 'disabled'
+    },
+    {
+      seat_number: 'B1',
+      show: true,
+      status: 'disabled'
+    },
+    {
+      seat_number: 'B2',
+      show: true,
+      status: 'available'
+    },
+    {
+      seat_number: 'A3',
+      show: true,
+      status: 'disabled'
+    },
+    {
+      seat_number: 'A4',
+      show: true,
+      status: 'available'
+    },
+    {
+      seat_number: '-',
+      show: false,
+      status: 'disabled'
+    },
+    {
+      seat_number: 'B3',
+      show: true,
+      status: 'available'
+    },
+    {
+      seat_number: 'B4',
+      show: true,
+      status: 'booked'
+    },
+    {
+      seat_number: 'A5',
+      show: true,
+      status: 'available'
+    },
+    {
+      seat_number: 'A6',
+      show: true,
+      status: 'available'
+    },
+    {
+      seat_number: 'A7',
+      show: true,
+      status: 'available'
+    },
+    {
+      seat_number: 'B5',
+      show: true,
+      status: 'available'
+    },
+    {
+      seat_number: 'B6',
+      show: true,
+      status: 'booked'
+    }
+  ]
+}
 </script>
 
 <template>
   <TheBookingSteps activePage="seat-selection" />
-  <section class="pt-10 pb-20 bg-slate-100">
+  <section v-if="selectedData.id" class="pt-10 pb-20 bg-slate-100">
     <div class="container mx-auto">
       <div class="mx-auto">
         <div class="bg-white border border-slate-200 shadow-2xl shadow-black/10 rounded-xl">
           <div class="grid sm:grid-cols-[minmax(min-content,400px)_1fr] divide-x">
             <div>
+              {{ seats((selectedData.bus[0].bus_type[0].grid_size).split(' x ')[0], (selectedData.bus[0].bus_type[0].grid_size).split(' x ')[1]) }}
               <header class="px-6 py-6 border-b border-slate-200">
                 <h1 class="text-lg mb-3 font-semibold">Select Seat</h1>
                 <div class="flex gap-4 flex-col sm:flex-row">
