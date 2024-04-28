@@ -10,11 +10,11 @@ use \App\Http\Controllers\PassengerController;
 use \App\Http\Controllers\BusOperatorController;
 use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\AmenityController;
+use App\Http\Controllers\BusAmenityController;
 use \App\Http\Controllers\BusTypeController;
 use \App\Http\Controllers\BusController;
 use App\Http\Controllers\BusPhotoController;
 use App\Http\Controllers\UserController;
-use Xentixar\EsewaSdk\Esewa;
 
 // Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/user', function (Request $request) {
@@ -23,13 +23,21 @@ Route::get('/user', function (Request $request) {
 Route::post('/add-amenity', [AmenityController::class, 'store']);
 Route::resource('/bus-types', BusTypeController::class);
 Route::resource('/bus', BusController::class);
+Route::post('/update-bus-photo', [BusController::class, 'updateBusPhoto']);
+Route::get('/bus-by-operator/{operator_id}', [BusController::class, 'busByOperator']);
 Route::resource('/bus-photos', BusPhotoController::class);
 Route::resource('/locations', LocationsController::class);
 Route::resource('/schedule', ScheduleController::class);
 Route::resource('/route-point', RoutePointController::class);
+Route::get('/route-points-by-schedule/{schedule_id}', [RoutePointController::class, 'routePointsBySchedule']);
 Route::resource('/passenger', PassengerController::class);
 Route::resource('/operator', BusOperatorController::class);
 Route::resource('/amenities', AmenityController::class);
+Route::resource('/schedules', ScheduleController::class);
+Route::get('/schedule-by-operator/{operator_id}', [ScheduleController::class, 'scheduleByOperator']);
+Route::resource('/bus-amenities', BusAmenityController::class);
+Route::get('/particular-bus-amenities/{bus_no}', [BusAmenityController::class, 'busAmenities']);
+Route::post('/delete-bus-amenities/{bus_no}/{amenity_id}', [BusAmenityController::class, 'delete']);
 Route::post('/update-user-photo', [UserController::class, 'updateProfilePhoto']);
 Route::post('/change-password', [UserController::class, 'changePassword']);
 Route::resource('/admin', AdminController::class);
@@ -44,7 +52,8 @@ Route::post('/auth-google', [PassengerController::class, 'authGoogle']);
 Route::post('/register-operator', [BusOperatorController::class, 'store']);
 Route::post('/register-admin', [AdminController::class, 'store']);
 Route::get('/buses', [BusController::class, 'buses']);
-Route::get('/bus-gallery', [BusPhotoController::class, "showGallery"]);
+Route::get('/bus-gallery/{bus_no}', [BusPhotoController::class, "showGallery"]);
 Route::get('/all-location', [LocationsController::class, "allLocations"]);
 Route::get('/all-schedule', [ScheduleController::class, "allSchedules"]);
 Route::get('/all-route-point', [RoutePointController::class, "allRoutePoints"]);
+Route::post('/search-schedule', [ScheduleController::class, "searchSchedules"]);

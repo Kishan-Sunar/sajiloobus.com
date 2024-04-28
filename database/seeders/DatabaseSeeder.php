@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             BusOperatorSeeder::class,
             PassengerSeeder::class,
+            LocationSeeder::class,
+            AmenitySeeder::class,
         ]);
     }
 }

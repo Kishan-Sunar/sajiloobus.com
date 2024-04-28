@@ -43,3 +43,10 @@ php artisan make:controller OperatorDocController --resource
 php artisan make:model OperatorDoc
 php artisan make:request StoreOperatorDocRequest
 php artisan make:resource OperatorDocResource
+
+
+
+php artisan make:controller BusAmenityController --resource
+php artisan make:model BusAmenity
+php artisan make:request StoreBusAmenityRequest
+php artisan make:resource BusAmenityResource

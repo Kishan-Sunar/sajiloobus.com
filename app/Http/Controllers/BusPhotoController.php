@@ -17,10 +17,10 @@ class BusPhotoController extends Controller
     {
         //
     }
-    public function showGallery(ShowBusPhotoRequest $request)
+    public function showGallery(string $bus_no)
     {
-        $busPhoto = BusPhoto::all()->where('bus_no', $request->bus_no);
-        return (new BusPhotoResource($busPhoto, 'Success'));
+        $busPhoto = BusPhoto::all()->where('bus_no', $bus_no)->sortByDesc('created_at');
+        return (new BusPhotoResource($busPhoto));
     }
 
     /**
@@ -37,11 +37,16 @@ class BusPhotoController extends Controller
     public function store(StoreBusPhotoRequest $request)
     {
         $busPhoto = BusPhoto::create([
-            'title'=> $request->title,
-            'photo_path'=> $request->photo_path,
-            'bus_no'=> $request->bus_no,
+            'title' => $request->title,
+            'bus_no' => $request->bus_no,
         ]);
-        return (new BusPhotoResource($busPhoto, 'Added successfully'))->additional([
+        if ($busPhoto && $request->hasFile('photo_path')) {
+            $image = $request->file('photo_path');
+            $featuredPhoto = $image->storePublicly('bus-photos', 'public');
+            $busPhoto->photo_path = $featuredPhoto;
+            $busPhoto->save();
+        }
+        return (new BusPhotoResource($busPhoto))->additional([
             "message" => "Bus photo added successfully"
         ]);
     }
@@ -70,7 +75,7 @@ class BusPhotoController extends Controller
         $busPhoto = BusPhoto::find($request->id);
         $busPhoto->title = $request->title;
         $busPhoto->photo_path = $request->photo_path;
-        return (new BusPhotoResource($busPhoto, 'Updated successfully'))->additional([
+        return (new BusPhotoResource($busPhoto))->additional([
             "message" => "Bus photo updated successfully"
         ]);
     }
@@ -82,7 +87,7 @@ class BusPhotoController extends Controller
     {
         $busPhoto = BusPhoto::find($id);
         $busPhoto->delete();
-        return (new BusPhotoResource($busPhoto, 'Deleted successfully'))->additional([
+        return (new BusPhotoResource($busPhoto))->additional([
             "message" => "Bus photo deleted successfully"
         ]);
     }

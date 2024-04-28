@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('bus_no');
             $table->longText('policy')->nullable();
             $table->longText('notes')->nullable();
+            $table->double("fare");
             $table->foreign('origin')->references('id')->on('locations')->onDelete('cascade');
             $table->foreign('destination')->references('id')->on('locations')->onDelete('cascade');
             $table->foreign('bus_no')->references('bus_no')->on('buses')->onDelete('cascade');

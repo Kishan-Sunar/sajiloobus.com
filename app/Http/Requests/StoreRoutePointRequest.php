@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRoutePointRequest extends FormRequest
 {
@@ -24,6 +25,12 @@ class StoreRoutePointRequest extends FormRequest
         return [
             'schedule_id' => ['exists:schedules,id'],
             'location_id' => ['exists:locations,id'],
+            'location_id' => Rule::unique('route_points')->where(function ($query) {
+                return $query
+                    ->where('location_id', $this->location_id)
+                    ->where('type', $this->type)
+                    ->where('schedule_id', $this->schedule_id);
+            }),
         ];
     }
 }

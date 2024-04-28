@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRoutePointRequest;
 use App\Http\Resources\RoutePointResource;
 use App\Models\RoutePoint;
 use Illuminate\Http\Request;
@@ -17,9 +18,16 @@ class RoutePointController extends Controller
     }
 
 
-    public function allRoutePoints() {
+    public function allRoutePoints()
+    {
         $point = RoutePoint::all();
-        return (new RoutePointResource($point, 'Success'));
+        return (new RoutePointResource($point));
+    }
+
+    public function routePointsBySchedule(int $schedule_id)
+    {
+        $point = RoutePoint::where('schedule_id', $schedule_id)->get();
+        return (new RoutePointResource($point));
     }
 
     /**
@@ -33,16 +41,14 @@ class RoutePointController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRoutePointRequest $request)
     {
         $point = RoutePoint::create([
-            'schedule_id'=> $request->schedule_id,
-            'location_id'=> $request->location_id,
-            'type'=> $request->type,
+            'schedule_id' => $request->schedule_id,
+            'location_id' => $request->location_id,
+            'type' => $request->type,
         ]);
-        return (new RoutePointResource($point, 'Added successfully'))->additional([
-            "message" => "Route point added successfully"
-        ]);
+        return response()->json(['data' => 'added successfully'], 200);
     }
 
     /**
@@ -70,9 +76,7 @@ class RoutePointController extends Controller
         $point->schedule_id = $request->schedule_id;
         $point->location_id = $request->location_id;
         $point->type = $request->type;
-        return (new RoutePointResource($point, 'Updated successfully'))->additional([
-            "message" => "Updated successfully"
-        ]);
+        return response()->json(['data' => 'updated successfully'], 200);
     }
 
     /**
@@ -82,8 +86,6 @@ class RoutePointController extends Controller
     {
         $point = RoutePoint::find($id);
         $point->delete();
-        return (new RoutePointResource($point, 'Deleted successfully'))->additional([
-            "message" => "Deleted successfully"
-        ]);
+        return response()->json(['data' => 'deleted successfully'], 200);
     }
 }
