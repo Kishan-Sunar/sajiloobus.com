@@ -7,7 +7,11 @@ export const useBookingStore = defineStore("booking-store", {
     }),
     actions: {
         selectSeat(data) {
-            this.selectedSeat = data
+            if (this.selectedSeat.includes(data)) {
+                this.selectedSeat = this.selectedSeat.filter(item => item !== data);
+            } else {
+                this.selectedSeat.push(data);
+            }
         }
     }
 });

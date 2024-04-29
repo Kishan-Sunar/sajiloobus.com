@@ -6,84 +6,24 @@ const { selected: selectedData } = storeToRefs(searchStore);
 if (!selectedData.value.id) {
   navigateTo('/search')
 }
-const seats = (row, col) => {
-  return [
-    {
-      seat_number: 'A1',
-      show: true,
-      status: 'available'
-    },
-    {
-      seat_number: 'A2',
-      show: true,
-      status: 'disabled'
-    },
-    {
-      seat_number: '-',
-      show: false,
-      status: 'disabled'
-    },
-    {
-      seat_number: 'B1',
-      show: true,
-      status: 'disabled'
-    },
-    {
-      seat_number: 'B2',
-      show: true,
-      status: 'available'
-    },
-    {
-      seat_number: 'A3',
-      show: true,
-      status: 'disabled'
-    },
-    {
-      seat_number: 'A4',
-      show: true,
-      status: 'available'
-    },
-    {
-      seat_number: '-',
-      show: false,
-      status: 'disabled'
-    },
-    {
-      seat_number: 'B3',
-      show: true,
-      status: 'available'
-    },
-    {
-      seat_number: 'B4',
-      show: true,
-      status: 'booked'
-    },
-    {
-      seat_number: 'A5',
-      show: true,
-      status: 'available'
-    },
-    {
-      seat_number: 'A6',
-      show: true,
-      status: 'available'
-    },
-    {
-      seat_number: 'A7',
-      show: true,
-      status: 'available'
-    },
-    {
-      seat_number: 'B5',
-      show: true,
-      status: 'available'
-    },
-    {
-      seat_number: 'B6',
-      show: true,
-      status: 'booked'
-    }
-  ]
+const seats = (col, row) => {
+  const sections = ['A', 'B']; // Define the sections
+  const seating = [];
+
+  for (let i = 1; i <= row; i++) {
+    sections.forEach(section => {
+      for (let j = 1; j <= col; j++) {
+        const seat_number = `${section}${i}${j}`;
+        const show = true;
+        const status = 'available';
+        seating.push({ seat_number, show, status });
+      }
+      if (section == 'A') {
+        seating.push({ seat_number: 'passage', show: false, status: 'available' });
+      }
+    });
+  }
+  return seating;
 }
 </script>
 
@@ -95,7 +35,6 @@ const seats = (row, col) => {
         <div class="bg-white border border-slate-200 shadow-2xl shadow-black/10 rounded-xl">
           <div class="grid sm:grid-cols-[minmax(min-content,400px)_1fr] divide-x">
             <div>
-              {{ seats((selectedData.bus[0].bus_type[0].grid_size).split(' x ')[0], (selectedData.bus[0].bus_type[0].grid_size).split(' x ')[1]) }}
               <header class="px-6 py-6 border-b border-slate-200">
                 <h1 class="text-lg mb-3 font-semibold">Select Seat</h1>
                 <div class="flex gap-4 flex-col sm:flex-row">
@@ -120,7 +59,9 @@ const seats = (row, col) => {
               <div class="px-6 py-6">
                 <div class="bg-slate-100 px-4 py-4 rounded-2xl w-full">
                   <div class="grid gap-6 grid-cols-5">
-                    <div v-for="seat in seats" :key="seat.seat_number">
+                    <div
+                      v-for="seat in seats((selectedData.bus[0].bus_type[0].grid_size).split(' x ')[0], (selectedData.bus[0].bus_type[0].grid_size).split(' x ')[1])"
+                      :key="seat.seat_number">
                       <button @click="bookingStore.selectSeat(seat)"
                         :disabled="seat.status == 'disabled' || seat.status == 'booked'" v-if="seat.show"
                         class="flex items-center flex-col gap-y-1s text-xs font-medium">
@@ -140,13 +81,14 @@ const seats = (row, col) => {
                   <div>
                     <div class="w-20 h-20 block rounded-2xl overflow-hidden shadow-lg">
                       <img class="w-full h-full object-cover"
-                        src="https://www.gracefuladventure.com/wp-content/uploads/2019/03/Tourist-bus.jpg" alt="logo" />
+                        :src="$config.public.apiURL + '/storage/' + selectedData.bus[0].featured_photo_path ?? '/avatar/bus-placeholder.webp'"
+                        alt="logo" />
                     </div>
                   </div>
                   <div>
-                    <h3 class="font-medium mb-1 text-lg">Sanjog Tours and Travels</h3>
+                    <h3 class="font-medium mb-1 text-lg">{{ selectedData.bus[0].name }}</h3>
                     <div class="flex items-center gap-x-4">
-                      <div class="font-medium">Deluxe</div>
+                      <div class="font-medium">{{ selectedData.bus[0].bus_type[0].name }}</div>
                       <div class="flex items-center gap-x-2">
                         <div class="flex items-center gap-x-2">
                           <IconStar class="w-6 text-green-600"></IconStar>
@@ -167,7 +109,8 @@ const seats = (row, col) => {
                     </div>
                     <div class="flex flex-col gap-y-1">
                       <span class="font-medium mt-0.5 text-sm text-green-700">Departure</span>
-                      <span class="text-base font-medium">Pokhara | 8:30 PM (NIGHT)</span>
+                      <span class="text-base font-medium">{{ selectedData.origin[0].name }} |
+                        {{ selectedData.departure }}</span>
                     </div>
                   </div>
                   <div class="relative pl-11 pb-1">
@@ -176,13 +119,15 @@ const seats = (row, col) => {
                     </div>
                     <div class="flex flex-col gap-y-1">
                       <span class="font-medium mt-0.5 text-sm text-green-700">Arrival</span>
-                      <span class="text-base font-medium">Surkhet | 8:30 AM (23 MAY)</span>
+                      <span class="text-base font-medium">{{ selectedData.destination[0].name }} |
+                        {{ selectedData.arrival }}</span>
                     </div>
                   </div>
                 </div>
                 <div class="flex flex-col gap-y-2">
                   <h3 class="text-green-600 font-medium">Selected Seats</h3>
                   <span class="text-xl font-semibold">
+                    {{ selectedSeat }}
                     <span v-for="item in selectedSeat" :key="item">{{ item.seat_number }}</span>
                   </span>
                 </div>
@@ -203,16 +148,8 @@ const seats = (row, col) => {
                   <div class="col-span-2">
                     <label class="text-green-600 mb-2 block font-medium text-sm">Mobile Number</label>
                     <div class="relative">
-                      <div class="absolute left-0 top-4">
-                        <select class="appearance-none w-full bg-transparent pl-4 pr-11">
-                          <option>+977</option>
-                          <option>+1</option>
-                          <option>+91</option>
-                        </select>
-                        <IconChevronExpand class="w-5 absolute right-4 top-0.5 pointer-events-none" />
-                      </div>
                       <input type="text" placeholder="Eg: XXX XXXX XXXX"
-                        class="py-4 pr-4 pl-24 w-full transition-all duration-300 text-base rounded-xl border-[1.5px] focus:border-green-600 focus:outline-2 focus:outline-green-200 outline-offset-0 outline-none" />
+                        class="py-4 pr-4 pl-4 w-full transition-all duration-300 text-base rounded-xl border-[1.5px] focus:border-green-600 focus:outline-2 focus:outline-green-200 outline-offset-0 outline-none" />
                     </div>
                   </div>
                   <div class="col-span-2">
