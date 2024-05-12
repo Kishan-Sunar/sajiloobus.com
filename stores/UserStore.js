@@ -1,3 +1,4 @@
+import { defineStore } from "pinia";
 import { useAuthService } from "~/services/AuthService.js";
 import { useUserService } from "~/services/UserService";
 

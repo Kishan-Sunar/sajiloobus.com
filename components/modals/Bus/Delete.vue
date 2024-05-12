@@ -53,7 +53,7 @@ defineProps({
                     </header>
                     <div class="flex flex-col gap-y-3 mb-5">
                         <p class=" text-lg mb-4 text-zinc-500">
-                            Are you sure you want to delete this bus type?
+                            Are you sure you want to delete this bus?
                         </p>
                         <div class="flex gap-4 flex-col sm:flex-row items-center justify-between">
                             <button @click="deleteData()"

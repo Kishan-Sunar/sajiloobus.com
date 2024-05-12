@@ -1,9 +1,87 @@
 <script setup>
+import Chart from 'primevue/chart';
+import { ref, onMounted } from "vue";
 definePageMeta({
     layout: "admin",
     middleware: ["auth"],
 });
-// Tab
+
+onMounted(() => {
+    chartData.value = setChartData();
+    chartOptions.value = setChartOptions();
+});
+
+const chartData = ref();
+const chartOptions = ref();
+
+const setChartData = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+
+    return {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [
+            {
+                label: 'Revenues',
+                backgroundColor: documentStyle.getPropertyValue('--cyan-500'),
+                borderColor: documentStyle.getPropertyValue('--cyan-500'),
+                data: [65, 59, 4, 81, 56, 55, 40]
+            },
+            {
+                label: 'Bookings',
+                backgroundColor: documentStyle.getPropertyValue('--gray-500'),
+                borderColor: documentStyle.getPropertyValue('--gray-500'),
+                data: [28, 48, 40, 19, 86, 27, 90]
+            },
+            {
+                label: 'Schedules',
+                backgroundColor: documentStyle.getPropertyValue('--green-500'),
+                borderColor: documentStyle.getPropertyValue('--green-500'),
+                data: [10, 4, 5, 6, 2, 8, 10]
+            }
+        ]
+    };
+};
+const setChartOptions = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+    return {
+        maintainAspectRatio: false,
+        aspectRatio: 0.8,
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: textColorSecondary,
+                    font: {
+                        weight: 500
+                    }
+                },
+                grid: {
+                    display: false,
+                    drawBorder: false
+                }
+            },
+            y: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder,
+                    drawBorder: false
+                }
+            }
+        }
+    };
+}
 const currentTab = ref("basic");
 </script>
 
@@ -32,63 +110,16 @@ const currentTab = ref("basic");
                 </div>
             </div>
             <div class="py-5">
-                <div class="grid grid-cols-2">
-                    <div class="py-4 px-4 bg-slate-100 rounded-xl">
-                        <h3 class="block px-4 mb-4 font-semibold">
-                            Active Bus Schedule
-                        </h3>
-                        <div v-for="item in [1, 2, 3, 4, 5]" :key="item">
-                            <div class="px-2 rounded-full relative hover:bg-slate-50">
-                                <div class="grid gap-y-3 sm:grid-cols-[minmax(min-content,50px)_1fr]">
-                                    <div class="py-2">
-                                        <div
-                                            class="w-[50px] h-[50px] bg-slate-400 block rounded-full overflow-hidden shadow-lg">
-                                            <img class="w-full h-full object-cover"
-                                                src="https://www.gracefuladventure.com/wp-content/uploads/2019/03/Tourist-bus.jpg"
-                                                alt="logo" />
-                                        </div>
-                                    </div>
-                                    <div class="px-0 py-2 sm:px-6">
-                                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-2 gap-x-6">
-                                            <div class="flex flex-col">
-                                                <div class="relative pl-5">
-                                                    <i
-                                                        class="absolute rounded-full left-0 top-[8px] w-2 h-2 bg-green-600"></i>
-                                                    <span class="text-xs font-medium">Kaski, Pokhara</span>
-                                                </div>
-                                                <div class="relative pl-5">
-                                                    <i class="absolute left-0 top-[8px] w-2 h-2 bg-orange-500"></i>
-                                                    <span class="text-xs font-medium">Kaski, Pokhara</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex flex-col gap-y-1">
-                                                <h2 class="text-xs font-medium text-slate-500">
-                                                    Total Bookings
-                                                </h2>
-                                                <span class="text-base font-medium">12</span>
-                                            </div>
-                                            <div class="flex flex-col gap-y-1">
-                                                <h2 class="text-xs font-medium text-slate-500">
-                                                    Total Earning
-                                                </h2>
-                                                <span class="text-base font-medium">NPR 30,000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Chart type="bar" :data="chartData" :options="chartOptions" class="h-[30rem]" />
             </div>
         </div>
     </div>
     <ClientOnly>
         <Teleport to="#infobar">
-            <div class="px-4 bg-amber-100 py-4">
+            <!-- <div class="px-4 bg-amber-100 py-4">
                 Your subscription has been expired. Please renew the
                 subscription
-            </div>
+            </div> -->
         </Teleport>
     </ClientOnly>
 </template>

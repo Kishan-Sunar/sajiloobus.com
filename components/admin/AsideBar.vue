@@ -28,21 +28,6 @@
                         <IconCities class="h-6" />
                     </template>
                 </AdminAsideLink>
-                <AdminAsideLink label="Manage Schedules" href="/admin/manage-schedules">
-                    <template #icon>
-                        <IconSchedule class="h-6" />
-                    </template>
-                </AdminAsideLink>
-                <AdminAsideLink label="Manage Bookings" href="/admin/manage-bookings" badge="12">
-                    <template #icon>
-                        <IconBooking class="h-6" />
-                    </template>
-                </AdminAsideLink>
-                <AdminAsideLink label="Settings" href="/admin/setting">
-                    <template #icon>
-                        <IconCog class="h-6" />
-                    </template>
-                </AdminAsideLink>
             </div>
         </div>
         <div class="flex border-t py-4 flex-col items-center">

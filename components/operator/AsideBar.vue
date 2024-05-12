@@ -1,4 +1,11 @@
-<script setup></script>
+<script setup>
+const { $notificationStore, $userNotificationStore, $userStore } = useNuxtApp();
+const { notifications: userNotification, notificationsWithTimeAgo } = storeToRefs($userNotificationStore);
+const user_notification = computed(() => {
+    // also where user id is passenger and sort by desc
+    return userNotification.value.filter((item) => item.message.userId === $userStore.user.id).sort((a, b) => b.id - a.id)
+})
+</script>
 
 <template>
     <div class="flex flex-col pt-4 gap-y-4 justify-between h-[100vh] border-r">
@@ -23,14 +30,10 @@
                         <IconSchedule class="h-6" />
                     </template>
                 </OperatorAsideLink>
-                <OperatorAsideLink label="Manage Bookings" href="/operator/manage-bookings" badge="12">
+                <OperatorAsideLink label="Manage Bookings" href="/operator/manage-bookings"
+                    :badge="user_notification.length">
                     <template #icon>
                         <IconBooking class="h-6" />
-                    </template>
-                </OperatorAsideLink>
-                <OperatorAsideLink label="Settings" href="/operator/setting">
-                    <template #icon>
-                        <IconCog class="h-6" />
                     </template>
                 </OperatorAsideLink>
             </div>

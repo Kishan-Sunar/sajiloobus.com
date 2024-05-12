@@ -1,3 +1,4 @@
+import { defineStore } from "pinia";
 import { useAmentyService } from "~/services/AmentyService.js";
 
 export const useAmentyStore = defineStore("amenty-store", {

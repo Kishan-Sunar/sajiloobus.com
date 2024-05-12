@@ -1,4 +1,10 @@
-<script setup></script>
+<script setup>
+const { $modalStore, $notificationStore } = useNuxtApp();
+const { currentModal } = storeToRefs($modalStore)
+const searchStore = useSearchStore();
+searchStore.search();
+const { data: searchData } = storeToRefs(searchStore)
+</script>
 
 <template>
     <section class="pt-16 pb-4 bg-slate-400 relative z-10">
@@ -15,24 +21,29 @@
         </div>
     </section>
     <section class="py-10 bg-slate-100">
+
         <div class="container mx-auto">
-            <div class="flex flex-col gap-y-6">
-                <div v-for="item in ['Sanjog Tours and Travels', 'Yarsha Tours and Travels', 'Gurung Tours and Travels', 'Kathmandu Tours and Travels', 'Thapa Tours and Travels', 'Damini Tours and Travels']"
-                    :key="item"
+            <div v-if="searchData.length" class="flex flex-col gap-y-6">
+                <div v-for="item in searchData" :key="item"
                     class="bg-white transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 shadow shadow-black/5 rounded-xl">
                     <div class="grid gap-x-5 gap-y-4 sm:grid-cols-4">
-                        <div class="bg-slate-400 rounded-xl sm:rounded-r-none overflow-hidden relative">
+                        <div @click="() => { searchStore.selectData(item), $modalStore.toggleModal('photos') }"
+                            class="bg-slate-400 cursor-pointer rounded-xl sm:rounded-r-none overflow-hidden relative">
                             <div class="absolute top-0 left-0 w-full h-full bg-black/20"></div>
                             <span
-                                class="bg-white font-semibold shadow-lg py-1 px-3 rounded-full absolute bottom-2 right-5">2</span>
-                            <img src="https://www.gracefuladventure.com/wp-content/uploads/2019/03/Tourist-bus.jpg"
+                                class="bg-white font-semibold shadow-lg py-1 px-3 rounded-full absolute bottom-2 right-5">{{ item.bus.bus_photo.length }}</span>
+                            <img :src="$config.public.apiURL + '/storage/' + item.bus.featured_photo_path ?? '/avatar/bus-placeholder.webp'"
                                 class="h-full w-full object-cover" alt="bus logo" />
                         </div>
                         <div class="sm:col-span-2">
                             <div class="py-4 px-4">
-                                <h3 class="font-semibold text-sky-950 mb-1 text-xl">{{ item }}</h3>
+                                <h3 class="font-semibold text-sky-950 mb-1 text-xl">{{ item.name }}</h3>
                                 <div class="flex items-center gap-x-4 mb-3">
-                                    <div class="font-regular text-slate-600">Deluxe</div>
+                                    <div class="font-regular text-slate-600">
+                                        <span>
+                                            {{ item.bus.bus_type.name }}
+                                        </span>
+                                    </div>
                                     <div class="flex items-center gap-x-2">
                                         <div class="flex items-center gap-x-2">
                                             <IconStar class="w-6 text-green-600"></IconStar>
@@ -52,7 +63,8 @@
                                         </div>
                                         <div class="pt-0 pl-8 sm:pt-6 sm:pl-0 pb-3 sm:pb-0 transition-all duration-300">
                                             <span class="text-sm mb-2 text-slate-600">Departure</span>
-                                            <h3 class="font-semibold">Pokhara | 8:30 PM (NIGHT)</h3>
+                                            <h3 class="font-semibold">{{ item.origin.name }}</h3>
+                                            <span>{{ item.departure }}</span>
                                         </div>
                                     </div>
                                     <div class="relative">
@@ -63,24 +75,30 @@
                                         </div>
                                         <div class="pt-0 pl-8 sm:pt-6 sm:pl-0 pb-3 sm:pb-0 transition-all duration-300">
                                             <span class="text-sm mb-2 text-slate-600">Arrival</span>
-                                            <h3 class="font-semibold">Surkhet | 8:30 AM (23 MAY)</h3>
+                                            <h3 class="font-semibold">{{ item.destination.name }}</h3>
+                                            <span>{{ item.arrival }}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="flex flex-col sm:flex-row gap-4">
-                                        <nuxt-link to="/"
-                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700">Amenties</nuxt-link>
-                                        <nuxt-link to="/"
-                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700">Photos</nuxt-link>
-                                        <nuxt-link to="/"
-                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700">Boarding
+                                        <span
+                                            @click="() => { searchStore.selectData(item), $modalStore.toggleModal('amenities') }"
+                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700 hover:cursor-pointer">Amenties</span>
+                                        <span
+                                            @click="() => { searchStore.selectData(item), $modalStore.toggleModal('photos') }"
+                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700 hover:cursor-pointer">Photos</span>
+                                        <span
+                                            @click="() => { searchStore.selectData(item), $modalStore.toggleModal('points') }"
+                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700 hover:cursor-pointer">Boarding
                                             |
-                                            Dropping Points</nuxt-link>
-                                        <nuxt-link to="/"
-                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700">Policies</nuxt-link>
-                                        <nuxt-link to="/"
-                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700">Reviews</nuxt-link>
+                                            Dropping Points</span>
+                                        <span
+                                            @click="() => { searchStore.selectData(item), $modalStore.toggleModal('policy') }"
+                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700 hover:cursor-pointer">Policies</span>
+                                        <span
+                                            @click="() => { searchStore.selectData(item), $modalStore.toggleModal('reviews') }"
+                                            class="whitespace-nowrap text-sm text-slate-600 hover:text-green-700 hover:cursor-pointer">Reviews</span>
                                     </div>
                                 </div>
                             </div>
@@ -91,26 +109,35 @@
                                 <h3 class="font-medium">Amenties</h3>
                                 <div class="px-4">
                                     <div class="grid justify-center items-center grid-cols-4 gap-x-2">
-                                        <IconAmentiesBottle class="w-8 text-white/60" />
-                                        <IconAmentiesWifi class="w-8 text-white/60" />
-                                        <IconAmentiesTV class="w-8 text-white/60" />
-                                        <span class="text-xl font-medium">
-                                            + 5
-                                        </span>
+                                        <template v-for="(amenity, index) in item.bus.bus_amenity.slice(0, 3)"
+                                            :key="index">
+                                            <div class="h-8 w-8" v-html="amenity.amenity.svg_icon"></div>
+                                        </template>
+                                        <span v-if="item.bus.bus_amenity.length > 3" class="text-xl font-medium">+
+                                            {{ item.bus.bus_amenity.length - 3 }}</span>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <h4 class="font-medium mb-3">Rs. 1600 / person</h4>
-                                <nuxt-link to="/search/seat-selection"
-                                    class="cursor-pointer flex justify-center items-center rounded-full transition-all duration-300 text-black py-3 px-4 shadow-lg bg-green-300 hover:bg-green-400 font-medium">
+                                <h4 class="font-medium mb-3">Rs. {{ item.fare }} / person</h4>
+                                <button
+                                    @click="() => { searchStore.selectData(item), navigateTo('/search/seat-selection') }"
+                                    class="cursor-pointer flex justify-center items-center rounded-full transition-all duration-300 w-full text-black py-3 px-4 shadow-lg bg-green-300 hover:bg-green-400 font-medium">
                                     View Seats
-                                </nuxt-link>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div v-else>
+                <TheEmptyMessage message="No bus available" class="w-full" />
+            </div>
         </div>
     </section>
+    <ModalsBusDetailsPhotos :show="currentModal == 'photos'" />
+    <ModalsBusDetailsAmenities :show="currentModal == 'amenities'" />
+    <ModalsBusDetailsReviews :show="currentModal == 'reviews'" />
+    <ModalsBusDetailsPolicy :show="currentModal == 'policy'" />
+    <ModalsBusDetailsPoints :show="currentModal == 'points'" />
 </template>

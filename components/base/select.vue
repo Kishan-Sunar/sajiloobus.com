@@ -28,7 +28,7 @@ if (props.input) {
     <slot name="icon"></slot>
     <Icon name="i-heroicons:chevron-down-solid" size="20" class="absolute right-4 w-5 text-gray-500" />
   </div>
-  <BaseError class="-mt-2">
+  <BaseError class="mt-1">
     {{ errorMessage }}
   </BaseError>
 </template>

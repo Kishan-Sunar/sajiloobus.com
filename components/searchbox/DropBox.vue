@@ -1,26 +1,11 @@
 <script setup>
-let cities = [
-    { name: "Kathmandu", code: "ktm" },
-    { name: "Pokhara", code: "pkr" },
-    { name: "Lalitpur", code: "ltp" },
-    { name: "Biratnagar", code: "brt" },
-    { name: "Bharatpur", code: "bhr" },
-    { name: "Birgunj", code: "bgj" },
-    { name: "Butwal", code: "btl" },
-    { name: "Dharan", code: "dhr" },
-    { name: "Hetauda", code: "hdu" },
-    { name: "Nepalgunj", code: "ngj" },
-    { name: "Itahari", code: "itr" },
-    { name: "Dhangadhi", code: "dnd" },
-    { name: "Janakpur", code: "jkr" },
-    { name: "Surkhet", code: "skh" },
-    { name: "Siddharthanagar", code: "sdn" },
-    { name: "Mahendranagar", code: "mhn" },
-];
+const locationStore = useLocationStore();
+locationStore.getData();
+const { data: locationData } = storeToRefs(locationStore);
 
 const searchInput = ref('');
 const filteredCities = computed(() => {
-    return cities.filter(city => city.name.toLowerCase().includes(searchInput.value.toLowerCase()));
+    return locationData.value.filter(city => city.name.toLowerCase().includes(searchInput.value.toLowerCase()));
 });
 const inputRef = ref(null);
 let isSearchFocused = ref(false)
@@ -44,13 +29,13 @@ let isSearchFocused = ref(false)
             <div class="max-h-[20rem] transition-all duration-300 overflow-y-auto">
                 <div class="flex flex-col gap-y-0.5 px-2 overflow-y-auto">
                     <div @click="$emit('selectCity', item.name), $emit('closeDropbox')" v-for="item in filteredCities"
-                        :key="item.code"
+                        :key="item.city_code"
                         class="px-4 py-3 cursor-pointer group/item select-none transition-all duration-300 active:bg-green-200 hover:bg-green-100 rounded-md first:rounded-t-xl last:rounded-b-xl bg-slate-100">
                         <div class="flex gap-x-3 justify-start items-center">
                             <IconMapMarker class="w-7 text-slate-500 group-hover/item:text-green-600" />
                             <div class="flex w-full justify-between items-center">
                                 <span>{{ item.name }}</span>
-                                <span class="text-sm uppercase text-green-700">{{ item.code }}</span>
+                                <span class="text-sm uppercase text-green-700">{{ item.city_code }}</span>
                             </div>
                         </div>
                     </div>

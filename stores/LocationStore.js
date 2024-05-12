@@ -1,3 +1,4 @@
+import { defineStore } from "pinia";
 import { useLocationService } from "~/services/LocationService.js";
 
 export const useLocationStore = defineStore("location-store", {
