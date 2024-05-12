@@ -10,10 +10,12 @@ use \App\Http\Controllers\PassengerController;
 use \App\Http\Controllers\BusOperatorController;
 use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\AmenityController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BusAmenityController;
 use \App\Http\Controllers\BusTypeController;
 use \App\Http\Controllers\BusController;
 use App\Http\Controllers\BusPhotoController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 
 // Route::middleware(['auth:sanctum'])->group(function () {
@@ -57,3 +59,15 @@ Route::get('/all-location', [LocationsController::class, "allLocations"]);
 Route::get('/all-schedule', [ScheduleController::class, "allSchedules"]);
 Route::get('/all-route-point', [RoutePointController::class, "allRoutePoints"]);
 Route::post('/search-schedule', [ScheduleController::class, "searchSchedules"]);
+
+// bookings
+Route::post('/confirm-booking', [BookingController::class, "store"]);
+Route::get('/booking-by-passenger/{id}', [BookingController::class, "getBookingByPassenger"]);
+Route::get('/booking-by-operator/{id}', [BookingController::class, "getBookingByOperator"]);
+Route::get('/booking/cancel-by-passenger/{id}', [BookingController::class, "cancelByPassenger"]);
+Route::get('/all-payment-history-by-passenger/{id}', [BookingController::class, "getAllPaymentHistoryByPassenger"]);
+Route::get('/booking/is-seat-booked/{schedule_id}', [BookingController::class, "isSeatBooked"]);
+Route::get('/change-status/{id}/{status}', [BookingController::class, "changeStatus"]);
+
+Route::get('/booking/check-booking-limit/{passenger_id}', [BookingController::class, 'checkBookingLimit']);
+Route::post('/create-review', [ReviewController::class, "store"]);

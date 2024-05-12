@@ -24,7 +24,7 @@ class ScheduleController extends Controller
         $date = Carbon::createFromFormat('d/m/Y', $request->date)->toDateString();
         $origin_id = Location::where('name', $origin)->first();
         $destination_id = Location::where('name', $destination)->first();
-        $schedules = Schedule::where('origin', $origin_id->id)
+        $schedules = Schedule::with('bus', 'bus.busPhoto', 'bus.busAmenity', 'bus.busAmenity.amenity', 'bus.busType', 'routePoint', 'routePoint.location', 'origin', 'destination')->where('origin', $origin_id->id)
             ->where('destination', $destination_id->id)
             ->where('departure', '>=', $date)
             ->get();
@@ -52,7 +52,7 @@ class ScheduleController extends Controller
     public function scheduleByOperator($operator_id)
     {
         $bus_no = Bus::where('operator_id', $operator_id)->pluck('bus_no');
-        $schedule = Schedule::whereIn('bus_no', $bus_no)->get()->sortBy('created_at');
+        $schedule = Schedule::with('bus', 'origin', 'destination')->whereIn('bus_no', $bus_no)->get()->sortBy('created_at');
         return (new ScheduleResource($schedule));
     }
 

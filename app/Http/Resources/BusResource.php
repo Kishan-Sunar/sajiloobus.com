@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use App\Models\BusType;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class BusResource extends ResourceCollection
+class BusResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,15 +15,6 @@ class BusResource extends ResourceCollection
      */
     public function toArray(Request $request)
     {
-        return $this->collection->map(
-            function ($bus) {
-                return [
-                    'bus_no' => $bus->bus_no,
-                    'featured_photo_path' => $bus->featured_photo_path,
-                    'name' => $bus->name,
-                    'bus_type' => new BusTypeResource(BusType::where('id', $bus->bus_type)->get())
-                ];
-            }
-        );
+        return parent::toArray($request);
     }
 }

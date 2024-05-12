@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('bus_seats', function (Blueprint $table) {
             $table->id();
             $table->string("name", 200);
+            $table->unsignedBigInteger('schedule_id');
+            $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
             $table->timestamps();
         });
     }

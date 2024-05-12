@@ -12,4 +12,12 @@ class BusAmenity extends Model
         'bus_no',
         'amenity_id'
     ];
+    public function bus()
+    {
+        return $this->belongsTo(Bus::class, 'bus_no', 'bus_no');
+    }
+    public function amenity()
+    {
+        return $this->belongsTo(Amenity::class, 'amenity_id', 'id');
+    }
 }

@@ -15,13 +15,13 @@ class BusController extends Controller
      */
     public function index()
     {
-        $buses = Bus::all();
+        $buses = Bus::with("BusType", "BusPhoto")->get();
         return (new BusResource($buses));
     }
 
     public function busByOperator($operator_id)
     {
-        $bus = Bus::where('operator_id', $operator_id)->get();
+        $bus = Bus::with("BusType", "BusPhoto")->where('operator_id', $operator_id)->get();
         return (new BusResource($bus))->additional([
             "message" => "Bus fetched successfully"
         ]);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BusType extends Model
 {
@@ -16,4 +17,8 @@ class BusType extends Model
         'operator_id',
         'grid_size'
     ];
+    public function buses(): HasMany
+    {
+        return $this->hasMany(Bus::class, 'bus_type', 'id');
+    }
 }

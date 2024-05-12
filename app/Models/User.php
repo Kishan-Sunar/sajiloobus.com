@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->role === UserRole::OPERATOR;
     }
+
+    public function passenger()
+    {
+        return $this->hasOne(Passenger::class, 'user_id', 'id');
+    }
 }

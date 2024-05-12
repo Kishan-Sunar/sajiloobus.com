@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -27,7 +28,9 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $requestData = $request->all();
+        $review = Review::create($requestData);
+        return response()->json(['data' => 'added successfully'], 200);
     }
 
     /**
