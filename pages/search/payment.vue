@@ -1,20 +1,28 @@
 <script setup>
-const route = useRoute()
-const query = route.query;
+import { date } from 'yup';
+const { $notificationStore, $userNotificationStore, $userStore } = useNuxtApp();
+const { notifications: userNotification, notificationsWithTimeAgo } = storeToRefs($userNotificationStore);
+const passengerStore = usePassengerStore();
+const { passenger } = storeToRefs(passengerStore);
+const bookingStore = useBookingStore();
+const {
+    selectedSeat,
+    passengerName,
+    passengerEmail,
+    passengerMobile,
+    boardingPoint,
+    droppingPoint,
+    comments,
+    lastBookings
+} = storeToRefs(bookingStore);
+const searchStore = useSearchStore();
 const modalStore = useModalStore()
 const { currentModal } = storeToRefs(modalStore);
-const { $notificationStore, $userStore } = useNuxtApp();
-const payWithEsewa = async () => {
-    try {
-        const response = await useApiFetch('/api/paywithesewa');
-        console.log(response.data)
-    } catch {
-
-    }
+const { selected: selectedData } = storeToRefs(searchStore);
+if (!selectedData.value.id) {
+    navigateTo('/search')
 }
-if (query.status == 'success') {
-    modalStore.toggleModal('khati-success')
-}
+const isOfflinePay = ref(false);
 const payWithKhalti = async () => {
     try {
         const response = await $fetch('https://a.khalti.com/api/v2/epayment/initiate/', {
@@ -24,7 +32,7 @@ const payWithKhalti = async () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "return_url": "http://localhost:3000/search/payment?status=success",
+                "return_url": "http://localhost:3000/dashboard/bookings?status=success",
                 "website_url": "http://localhost:3000",
                 "amount": "36000",
                 "purchase_order_id": "Order100",
@@ -41,6 +49,40 @@ const payWithKhalti = async () => {
         });
     } catch {
 
+    }
+}
+
+const payOffine = () => {
+    const data = {
+        'booked_by': passenger.value.id,
+        'schedule_id': selectedData.value.id,
+        'passenger_name': passengerName.value,
+        'passenger_email': passengerEmail.value,
+        'passenger_phone': passengerMobile.value,
+        'board_point': boardingPoint.value,
+        'drop_point': droppingPoint.value,
+        'comments': comments.value,
+        'total_amount': selectedSeat.value.length * selectedData.value.fare,
+        'payment_method': 'offline',
+        'comments': 'No comments',
+        'payment_status': 'PENDING',
+        'selected_seats': selectedSeat.value,
+        'seat_status': "BOOKED"
+    }
+    const response = bookingStore.confirmBooking(data);
+    if (response) {
+        $notificationStore.pushNotification('Your booking has been confirmed, please pay while travelling', 'success')
+        $userNotificationStore.pushNotification({
+            title: "Booking Confirmed",
+            message: `Your booking for ${selectedData.value.origin.name} - ${selectedData.value.destination.name} has been confirmed, please pay while travelling`,
+            type: "success",
+            userId: $userStore.user.id,
+            created_at: $userNotificationStore.notificationsWithTimeAgo(new Date().getTime()),
+            read: false,
+        })
+        navigateTo('/dashboard/bookings')
+    } else {
+        $notificationStore.pushNotification('Unable to book for now. Please try again', 'danger')
     }
 }
 </script>
@@ -79,18 +121,27 @@ const payWithKhalti = async () => {
                                             <span class="font-medium text-lg">Pay with
                                                 Khalti</span>
                                         </div>
-                                        <span class="font-semibold">RS: 3600</span>
+                                        <span class="font-semibold">RS:
+                                            {{ selectedSeat.length * selectedData.fare }}</span>
                                     </div>
                                 </button>
                                 <div class="border-b active:bg-slate-100 w-full py-4 px-6">
                                     <div class="flex items-center justify-between gap-x-4">
                                         <div class="flex gap-2 items-center justify-center">
                                             <span class="h-8 w-8 flex justify-center items-center">
-                                                <input type="checkbox" class="h-6 w-6">
+                                                <input @change="isOfflinePay = !isOfflinePay" type="checkbox"
+                                                    class="h-6 w-6">
                                             </span>
                                             <span class="font-medium text-lg">Pay while travelling</span>
                                         </div>
-                                        <span class="font-semibold">RS: 3600</span>
+                                        <span class="font-semibold">RS:
+                                            {{ selectedSeat.length * selectedData.fare }}</span>
+                                    </div>
+                                    <div v-if="isOfflinePay">
+                                        <button @click="payOffine()"
+                                            class="mt-4 font-semibold w-full flex justify-center py-4 px-6 rounded-full text-white transition-all duration-300 bg-green-500 hover:bg-green-500/60">
+                                            Pay now
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -102,14 +153,14 @@ const payWithKhalti = async () => {
                                     <div>
                                         <div class="w-20 h-20 block rounded-2xl overflow-hidden shadow-lg">
                                             <img class="w-full h-full object-cover"
-                                                src="https://www.gracefuladventure.com/wp-content/uploads/2019/03/Tourist-bus.jpg"
+                                                :src="$config.public.apiURL + '/storage/' + selectedData?.bus?.featured_photo_path ?? '/avatar/bus-placeholder.webp'"
                                                 alt="logo" />
                                         </div>
                                     </div>
                                     <div>
-                                        <h3 class="font-medium mb-1 text-lg">Sanjog Tours and Travels</h3>
+                                        <h3 class="font-medium mb-1 text-lg">{{ selectedData.bus?.name }}</h3>
                                         <div class="flex items-center gap-x-4">
-                                            <div class="font-medium">Deluxe</div>
+                                            <div class="font-medium">{{ selectedData.bus?.bus_type?.name }}</div>
                                             <div class="flex items-center gap-x-2">
                                                 <div class="flex items-center gap-x-2">
                                                     <IconStar class="w-6 text-green-600"></IconStar>
@@ -132,7 +183,8 @@ const payWithKhalti = async () => {
                                         </div>
                                         <div class="flex flex-col gap-y-1">
                                             <span class="font-medium mt-0.5 text-sm text-green-700">Departure</span>
-                                            <span class="text-base font-medium">Pokhara | 8:30 PM (NIGHT)</span>
+                                            <span class="text-base font-medium">{{ selectedData.origin?.name }} |
+                                                {{ selectedData.departure }}</span>
                                         </div>
                                     </div>
                                     <div class="relative pl-11 pb-1">
@@ -143,13 +195,16 @@ const payWithKhalti = async () => {
                                         </div>
                                         <div class="flex flex-col gap-y-1">
                                             <span class="font-medium mt-0.5 text-sm text-green-700">Arrival</span>
-                                            <span class="text-base font-medium">Surkhet | 8:30 AM (23 MAY)</span>
+                                            <span class="text-base font-medium">{{ selectedData.destination?.name }} |
+                                                {{ selectedData.arrival }}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex flex-col gap-y-2">
                                     <h3 class="text-green-600 font-medium">Selected Seats</h3>
-                                    <span class="text-xl font-semibold">A13, A14, A15,</span>
+                                    <div class="flex gap-2">
+                                        <span v-for="item in selectedSeat" :key="item">{{ item }},</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="px-6 pt-6 pb-16">
@@ -158,27 +213,38 @@ const payWithKhalti = async () => {
                                     <div>
                                         <label class="text-green-600 mb-2 block font-medium text-sm">Name of
                                             Passenger</label>
-                                        <h3 class="text-lg font-medium">Kishan Sunar</h3>
+                                        <h3 class="text-lg font-medium">{{ passengerName }}</h3>
                                     </div>
                                     <div>
                                         <label class="text-green-600 mb-2 block font-medium text-sm">Email
                                             Address</label>
-                                        <h3 class="text-lg font-medium">username@domain.com</h3>
+                                        <h3 class="text-lg font-medium">
+                                            {{ passengerEmail }}
+                                        </h3>
                                     </div>
                                     <div class="col-span-2">
-                                        <label class="text-green-600 mb-2 block font-medium text-sm">Mobile
-                                            Number</label>
-                                        <h3 class="text-lg font-medium">+977 9824125457</h3>
+                                        <label class="text-green-600 mb-2 block font-medium text-sm">
+                                            Mobile Number
+                                        </label>
+                                        <h3 class="text-lg font-medium">
+                                            {{ passengerMobile }}
+                                        </h3>
                                     </div>
                                     <div class="col-span-2">
-                                        <label class="text-green-600 mb-2 block font-medium text-sm">Boarding
-                                            Point</label>
-                                        <h3 class="text-lg font-medium">Gagangauda | 8:30 PM</h3>
+                                        <label class="text-green-600 mb-2 block font-medium text-sm">
+                                            Boarding Point
+                                        </label>
+                                        <h3 class="text-lg font-medium">
+                                            {{ boardingPoint }}
+                                        </h3>
                                     </div>
                                     <div class="col-span-2">
-                                        <label class="text-green-600 mb-2 block font-medium text-sm">Dropping
-                                            Point</label>
-                                        <h3 class="text-lg font-medium">Chinchu | 8:30 PM</h3>
+                                        <label class="text-green-600 mb-2 block font-medium text-sm">
+                                            Dropping Point
+                                        </label>
+                                        <h3 class="text-lg font-medium">
+                                            {{ droppingPoint }}
+                                        </h3>
                                     </div>
                                 </div>
                             </div>
@@ -186,15 +252,19 @@ const payWithKhalti = async () => {
                                 class="px-6 flex flex-col gap-y-2 bg-sky-950 pt-6 pb-16 rounded-b-xl sm:rounded-br-xl sm:rounded-bl-none ">
                                 <div class="grid grid-cols-2 px-4">
                                     <div class="text-white text-lg font-medium">Per Seats</div>
-                                    <div class="text-white text-lg font-regular text-right">Rs. 1240</div>
+                                    <div class="text-white text-lg font-regular text-right">Rs. {{ selectedData.fare }}
+                                    </div>
                                 </div>
                                 <div class="grid grid-cols-2 px-4">
                                     <div class="text-white text-lg font-medium">Number of Seats</div>
-                                    <div class="text-white text-lg font-regular text-right">3</div>
+                                    <div class="text-white text-lg font-regular text-right">{{ selectedSeat.length }}
+                                    </div>
                                 </div>
                                 <div class="grid grid-cols-2 px-4">
                                     <div class="text-white text-lg font-medium">Total Amount</div>
-                                    <div class="text-white text-lg font-regular text-right">Rs. 3600</div>
+                                    <div class="text-white text-lg font-regular text-right">Rs.
+                                        {{ selectedSeat.length * selectedData.fare }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -203,7 +273,4 @@ const payWithKhalti = async () => {
             </div>
         </div>
     </section>
-    <ModalsStatusAlert message="Payment done" description="Payment successfully done. And your booking is confirmed"
-        :show="currentModal == 'khati-success'">
-    </ModalsStatusAlert>
 </template>

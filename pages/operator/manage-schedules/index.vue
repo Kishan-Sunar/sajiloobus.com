@@ -42,18 +42,18 @@ const searchQuery = ref('')
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <h2 class="text-sm font-medium text-slate-500">Source</h2>
-                                <span class="text-base block font-medium">{{ item.origin[0].name }}</span>
+                                <span class="text-base block font-medium">{{ item.origin.name }}</span>
                                 <span class="text-sm font-medium text-green-600">{{ item.departure }}</span>
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <h2 class="text-sm font-medium text-slate-500">Destination</h2><span
-                                    class="text-base block font-medium">{{ item.destination[0].name }}</span>
+                                    class="text-base block font-medium">{{ item.destination.name }}</span>
                                 <span class="text-sm font-medium text-yellow-600">{{ item.arrival }}</span>
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <h2 class="text-sm font-medium text-slate-500">Bus no</h2>
-                                <span class="text-base font-medium">{{ item.bus[0].bus_no }}</span>
-                                <span class="text-sm text-slate-600 font-medium">{{ item.bus[0].name }}</span>
+                                <span class="text-base font-medium">{{ item.bus.bus_no }}</span>
+                                <span class="text-sm text-slate-600 font-medium">{{ item.bus.name }}</span>
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <h2 class="text-sm font-medium text-slate-500">Fare</h2>

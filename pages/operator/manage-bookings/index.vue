@@ -3,6 +3,15 @@ definePageMeta({
     layout: 'operator',
     middleware: ["operator-auth"],
 })
+const bookingStore = useBookingStore();
+bookingStore.getDataByOperator();
+const { bookings: bookingData } = storeToRefs(bookingStore);
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import { FilterMatchMode } from 'primevue/api';
+const filters = ref({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
 </script>
 
 <template>
@@ -13,51 +22,38 @@ definePageMeta({
     </header>
     <div class="bg-white py-5 pb-28">
         <div class="container mx-auto">
-            <header class="flex items-center justify-between">
-                <h4 class="font-medium text-lg">20/ 200 Records</h4>
-                <div class="relative">
-                    <IconSearchV2 class="h-6 text-slate-600 absolute top-1/2 -translate-y-1/2 left-4" />
-                    <input type="text"
-                        class="py-3 text-sm font-medium outline-none focus:border-slate-300 placeholder:text-slate-600 pl-12 pr-2 rounded-full border bg-slate-50 w-full"
-                        placeholder="Search query here" />
-                </div>
-            </header>
-            <div class="flex flex-col gap-y-1">
-                <div v-for="item in ['Kishan Sunar', 'Biraj Bhatta', 'Anupam Hital', 'Asshish Gurung', 'Asmit Pariyar', 'Asmit Pariyar', 'Asmit Pariyar', 'Asmit Pariyar', 'Asmit Pariyar', 'Asmit Pariyar']"
-                    :key="item" class="py-4">
-                    <div class="pb-4 border-b">
-                        <div class="grid grid-cols-2 sm:grid-cols-6 gap-y-2 gap-x-6">
-                            <div class="flex flex-col gap-y-1">
-                                <h2 class="text-sm font-medium text-slate-500">Bookind ID</h2>
-                                <span class="text-base font-medium">#1234DDD</span>
-                            </div>
-                            <div class="flex flex-col gap-y-1">
-                                <h2 class="text-sm font-medium text-slate-500">By</h2>
-                                <span class="text-base font-medium">{{ item }}</span>
-                            </div>
-                            <div class="flex flex-col gap-y-1">
-                                <h2 class="text-sm font-medium text-slate-500">Bus</h2>
-                                <span class="text-base font-medium">000022277EE</span>
-                            </div>
-                            <div class="flex flex-col gap-y-1">
-                                <h2 class="text-sm font-medium text-slate-500">Seats</h2>
-                                <span class="text-base font-medium">A1, A2, B4</span>
-                            </div>
-                            <div class="flex flex-col gap-y-1">
-                                <h2 class="text-sm font-medium text-slate-500">Total</h2>
-                                <span class="text-base font-medium">NPR 34000</span>
-                            </div>
-                            <div class="flex justify-end gap-y-1">
-                                <SharedActionButton>
-                                    <IconEdit class="h-5" />
-                                </SharedActionButton>
-                                <SharedActionButton>
-                                    <IconEllipseV class="h-5" />
-                                </SharedActionButton>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <DataTable editMode="cell" v:globalFilterFields="['passenger_name']" paginator :rows="10"
+                v-if="bookingData.length" :value="bookingData" :loading="loading" tableStyle="min-width: 50rem">
+                <Column field="id" header="Id"></Column>
+                <Column field="passenger_name" header="Passenger"></Column>
+                <Column field="schedule.name" header="From - To"></Column>
+                <Column field="total_amount" header="Total">
+                    <template #body="slotProps">
+                        Rs. {{ slotProps.data.total_amount }}
+                    </template>
+                </Column>
+                <Column field="payment_method" header="Payment Method"></Column>
+                <Column field="created_at" header="Booked at">
+                    <template #body="slotProps">
+                        {{ useFormatDateDMY(slotProps.data.created_at) }}
+                    </template>
+                </Column>
+                <Column field="payment_status" header="Status">
+                    <template #body="slotProps">
+                        <select @change="bookingStore.changeStatus(slotProps.data.id, $event.target.value)">
+                            <option :selected="slotProps.data.payment_status == 'PENDING'" value="PENDING">Pending
+                            </option>
+                            <option :selected="slotProps.data.payment_status == 'PAID'" value="PAID">Paid</option>
+                            <option :selected="slotProps.data.payment_status == 'UNPAID'" value="UNPAID">Un Paid
+                            </option>
+                            <option :selected="slotProps.data.payment_status == 'REFUNDED'" value="REFUNDED">Refunded
+                            </option>
+                        </select>
+                    </template>
+                </Column>
+            </DataTable>
+            <div v-if="!bookingData.length" class="flex justify-center">
+                <TheEmptyMessage message="No bookings done" />
             </div>
         </div>
     </div>

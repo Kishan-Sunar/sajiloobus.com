@@ -19,6 +19,7 @@ export default {
         "@vee-validate/nuxt",
         "nuxt-icon",
         "nuxt-primevue",
+        '@nuxt/content',
     ],
     googleSignIn: {
         clientId:
@@ -39,5 +40,6 @@ export default {
     build: {
         transpile: ["pinia-plugin-persistedstate"],
     },
+    generate: { fallback: '404.html' }
     
 };

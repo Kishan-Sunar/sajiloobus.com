@@ -95,13 +95,13 @@ defineProps({
                         </div>
                         <div>
                             <label class="mb-2 block font-medium text-sm">Choose Bus</label>
-                            <base-dropdown-select :input="scheduleSelected.bus[0].bus_no" :data="busData" name="bus"
+                            <base-dropdown-select :input="scheduleSelected.bus.bus_no" :data="busData" name="bus"
                                 class="w-full h-14 border items-center" optionValue="bus_no" optionLabel="name" />
                         </div>
                         <div class="grid gap-4 grid-cols-2">
                             <div>
                                 <label class="mb-2 block font-medium text-sm">From</label>
-                                <base-dropdown-select :input="scheduleSelected.origin[0].id" :data="locationData"
+                                <base-dropdown-select :input="scheduleSelected.origin.id" :data="locationData"
                                     name="origin" class="w-full h-14 border items-center" optionValue="id"
                                     optionLabel="name" />
                             </div>
@@ -114,7 +114,7 @@ defineProps({
                         <div class="grid gap-4 grid-cols-2">
                             <div>
                                 <label class="mb-2 block font-medium text-sm">To </label>
-                                <base-dropdown-select :input="scheduleSelected.destination[0].id" :data="locationData"
+                                <base-dropdown-select :input="scheduleSelected.destination.id" :data="locationData"
                                     name="destination" class="w-full h-14 border items-center" optionValue="id"
                                     optionLabel="name" />
                             </div>

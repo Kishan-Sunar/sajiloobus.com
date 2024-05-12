@@ -74,14 +74,14 @@ async function handelFileUpload(event) {
                         </span>
                         <span class="text-sm opacity-60 font-medium group-hover/item:opacity-100">My Tickets</span>
                     </nuxt-link>
-                    <nuxt-link to=""
+                    <nuxt-link to="/dashboard/payments"
                         class="hover:bg-white/10 group/item px-3 py-2 flex items-center justify-start gap-x-1">
                         <span class="w-10 h-10 flex justify-center items-center">
                             <IconMyPayments class="w-7 group-hover/item:text-green-300" />
                         </span>
                         <span class="text-sm opacity-60 font-medium group-hover/item:opacity-100">My Payments</span>
                     </nuxt-link>
-                    <nuxt-link to=""
+                    <nuxt-link to="/dashboard/ratings"
                         class="hover:bg-white/10 group/item px-3 py-2 flex items-center justify-start gap-x-1">
                         <span class="w-10 h-10 flex justify-center items-center">
                             <IconMyRatings class="w-7 group-hover/item:text-green-300" />

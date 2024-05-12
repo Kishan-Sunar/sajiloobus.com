@@ -13,3 +13,53 @@
     }
 
 }
+
+.md-content h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem
+}
+
+.md-content h1,
+.md-content h2 {
+    display: block;
+    font-weight: 600;
+    margin-bottom: .625rem;
+    margin-top: 1.5rem
+}
+
+.md-content h2 {
+    font-size: 1.5rem;
+    line-height: 2rem
+}
+
+.md-content h3 {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.75rem;
+    margin-bottom: .625rem;
+    margin-top: 1.5rem
+}
+
+.md-content p {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    margin-bottom: 1rem
+}
+
+.md-content ul {
+    list-style-type: disc
+}
+
+.md-content ol,
+.md-content ul {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    row-gap: .5rem
+}
+
+.md-content ol {
+    display: list-item
+}

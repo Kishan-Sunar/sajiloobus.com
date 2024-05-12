@@ -1,6 +1,11 @@
 <script setup>
 import { onClickOutside } from "@vueuse/core";
-const { $notificationStore, $userStore } = useNuxtApp();
+const { $notificationStore, $userNotificationStore, $userStore } = useNuxtApp();
+const { notifications: userNotification, notificationsWithTimeAgo } = storeToRefs($userNotificationStore);
+const user_notification = computed(() => {
+    // also where user id is passenger and sort by desc
+    return userNotification.value.filter((item) => item.message.userId === $userStore.user.id).sort((a, b) => b.id - a.id)
+})
 const { user } = storeToRefs($userStore);
 const userDropdown = ref(false);
 const notificationDropdown = ref(false);
@@ -23,14 +28,13 @@ onClickOutside(
                 </div>
                 <div>
                     <div class="flex items-center gap-x-6">
-
                         <div class="flex items-center gap-x-2">
                             <div class="relative" ref="notificationDropPanel">
                                 <button @click="
                                     notificationDropdown =
                                     !notificationDropdown
                                     "
-                                    class="rounded-full h-12 w-12 flex justify-center items-center hover:bg-black/20">
+                                    class="rounded-full h-12 w-12 flex justify-center items-center hover:bg-white/20">
                                     <Icon class="text-black" name="i-heroicons:bell" size="30" />
                                 </button>
 
@@ -42,36 +46,35 @@ onClickOutside(
                                             class="text-gray-900 dark:text-white font-semibold flex items-center gap-x-1.5 min-w-0">
                                             <span class="truncate">Notifications</span>
                                         </p>
-                                        <button type="button"
-                                            class="focus:outline-none focus-visible:outline-0 disabled:cursor-not-allowed disabled:opacity-75 flex-shrink-0 font-medium rounded-md text-sm gap-x-1.5 p-1.5 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-primary-500 inline-flex items-center"
+                                        <button v-if="user_notification.length"
+                                            @click="$userNotificationStore.clearAll($userStore.user.id)" type="button"
+                                            class="px-4 py-2 font-semibold rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center text-xs gap-2"
                                             aria-label="action">
-                                            <span class="i-heroicons-x-mark-20-solid flex-shrink-0 h-5 w-5"
-                                                aria-hidden="true"></span>
+                                            Clear all
+                                            <IconX class="w-2" />
                                         </button>
                                     </div>
-                                    <div class="flex-1 overflow-y-auto p-4">
-                                        <a v-for="i in 4" href="/inbox?id=1"
+                                    <div class="flex-1 overflow-y-auto max-h-[70vh] p-4">
+                                        <a v-for="i in user_notification" href="#"
                                             class="p-3 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer flex items-center gap-3 relative">
-                                            <div class="relative inline-flex items-center justify-center flex-shrink-0">
-                                                <span
-                                                    class="relative inline-flex items-center justify-center flex-shrink-0 rounded-full h-10 w-10 text-base"><img
-                                                        class="rounded-full h-10 w-10 text-base" alt="Jordan Brown"
-                                                        src="https://i.pravatar.cc/128?u=2" /></span><span
-                                                    class="absolute rounded-full ring-1 ring-white dark:ring-gray-900 flex items-center justify-center text-white dark:text-gray-900 font-medium whitespace-nowrap h-2 min-w-[0.5rem] text-[7px] p-0.5 top-0 right-0 bg-red-500 dark:bg-red-400"></span>
-                                            </div>
                                             <div class="text-sm flex-1">
                                                 <p class="flex items-center justify-between">
-                                                    <span class="text-gray-900 dark:text-white font-medium">Jordan
-                                                        Brown</span><time datetime="1969-12-31T23:53:00.000Z"
-                                                        class="text-gray-500 dark:text-gray-400 text-xs">54
-                                                        years
-                                                        ago</time>
+                                                    <span class="text-gray-900 dark:text-white font-medium">
+                                                        {{ i.message.title }}
+                                                    </span>
+                                                    <time :datetime="i.created_at"
+                                                        class="text-gray-500 dark:text-gray-400 text-xs">
+                                                        {{ i.message.created_at }}
+                                                    </time>
                                                 </p>
                                                 <p class="text-gray-500 dark:text-gray-400">
-                                                    sent you a message
+                                                    {{ i.message.message }}
                                                 </p>
                                             </div>
                                         </a>
+                                        <div v-if="user_notification.length == 0">
+                                            <TheEmptyMessage message="No notification available" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

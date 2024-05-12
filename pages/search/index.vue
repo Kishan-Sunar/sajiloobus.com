@@ -22,7 +22,6 @@ const { data: searchData } = storeToRefs(searchStore)
     </section>
     <section class="py-10 bg-slate-100">
 
-        {{ scheduleData }}
         <div class="container mx-auto">
             <div v-if="searchData.length" class="flex flex-col gap-y-6">
                 <div v-for="item in searchData" :key="item"
@@ -32,8 +31,8 @@ const { data: searchData } = storeToRefs(searchStore)
                             class="bg-slate-400 cursor-pointer rounded-xl sm:rounded-r-none overflow-hidden relative">
                             <div class="absolute top-0 left-0 w-full h-full bg-black/20"></div>
                             <span
-                                class="bg-white font-semibold shadow-lg py-1 px-3 rounded-full absolute bottom-2 right-5">{{ item.photos.length }}</span>
-                            <img :src="$config.public.apiURL + '/storage/' + item.bus[0].featured_photo_path ?? '/avatar/bus-placeholder.webp'"
+                                class="bg-white font-semibold shadow-lg py-1 px-3 rounded-full absolute bottom-2 right-5">{{ item.bus.bus_photo.length }}</span>
+                            <img :src="$config.public.apiURL + '/storage/' + item.bus.featured_photo_path ?? '/avatar/bus-placeholder.webp'"
                                 class="h-full w-full object-cover" alt="bus logo" />
                         </div>
                         <div class="sm:col-span-2">
@@ -41,8 +40,8 @@ const { data: searchData } = storeToRefs(searchStore)
                                 <h3 class="font-semibold text-sky-950 mb-1 text-xl">{{ item.name }}</h3>
                                 <div class="flex items-center gap-x-4 mb-3">
                                     <div class="font-regular text-slate-600">
-                                        <span v-for="type in item.bus[0].bus_type" :key="type.name">
-                                            {{ type.name }}
+                                        <span>
+                                            {{ item.bus.bus_type.name }}
                                         </span>
                                     </div>
                                     <div class="flex items-center gap-x-2">
@@ -64,7 +63,7 @@ const { data: searchData } = storeToRefs(searchStore)
                                         </div>
                                         <div class="pt-0 pl-8 sm:pt-6 sm:pl-0 pb-3 sm:pb-0 transition-all duration-300">
                                             <span class="text-sm mb-2 text-slate-600">Departure</span>
-                                            <h3 class="font-semibold">{{ item.origin[0].name }}</h3>
+                                            <h3 class="font-semibold">{{ item.origin.name }}</h3>
                                             <span>{{ item.departure }}</span>
                                         </div>
                                     </div>
@@ -76,7 +75,7 @@ const { data: searchData } = storeToRefs(searchStore)
                                         </div>
                                         <div class="pt-0 pl-8 sm:pt-6 sm:pl-0 pb-3 sm:pb-0 transition-all duration-300">
                                             <span class="text-sm mb-2 text-slate-600">Arrival</span>
-                                            <h3 class="font-semibold">{{ item.destination[0].name }}</h3>
+                                            <h3 class="font-semibold">{{ item.destination.name }}</h3>
                                             <span>{{ item.arrival }}</span>
                                         </div>
                                     </div>
@@ -110,11 +109,12 @@ const { data: searchData } = storeToRefs(searchStore)
                                 <h3 class="font-medium">Amenties</h3>
                                 <div class="px-4">
                                     <div class="grid justify-center items-center grid-cols-4 gap-x-2">
-                                        <template v-for="(amenity, index) in item.amenities.slice(0, 3)" :key="index">
-                                            <div class="h-8 w-8" v-html="amenity.svg_icon"></div>
+                                        <template v-for="(amenity, index) in item.bus.bus_amenity.slice(0, 3)"
+                                            :key="index">
+                                            <div class="h-8 w-8" v-html="amenity.amenity.svg_icon"></div>
                                         </template>
-                                        <span v-if="item.amenities.length > 3" class="text-xl font-medium">+
-                                            {{ item.amenities.length - 3 }}</span>
+                                        <span v-if="item.bus.bus_amenity.length > 3" class="text-xl font-medium">+
+                                            {{ item.bus.bus_amenity.length - 3 }}</span>
                                     </div>
                                 </div>
                             </div>

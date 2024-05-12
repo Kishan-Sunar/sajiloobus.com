@@ -9,7 +9,7 @@ defineProps({
     },
 });
 const photos = computed(() => {
-    return selectedData.value.photos
+    return selectedData.value.bus.bus_photo
 })
 </script>
 <template>

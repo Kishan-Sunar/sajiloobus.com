@@ -57,7 +57,7 @@ export const useBusStore = defineStore("bus-store", {
                 await this.csrf();
                 const response = await useBusService().updateFeaturedPhoto(data)
                 this.getData()
-                this.selected =  response.data;
+                selectData(response.data)
                 return response
             } catch (error) {
                 throw error

@@ -12,17 +12,17 @@
                     <span class="text-base">Home</span>
                     <IconChevronRight class="w-2 text-slate-400" />
                 </nuxt-link>
-                <nuxt-link to="/"
+                <nuxt-link to="/about"
                     class="relative items-center flex gap-x-3 font-medium hover:text-green-600 text-slate-500 transition-all duration-200">
                     <span class="text-base">About us</span>
                     <IconChevronRight class="w-2 text-slate-400" />
                 </nuxt-link>
-                <nuxt-link to="/"
+                <nuxt-link to="/offers"
                     class="relative items-center flex gap-x-3 font-medium hover:text-green-600 text-slate-500 transition-all duration-200">
                     <span class="text-base">Offers</span>
                     <IconChevronRight class="w-2 text-slate-400" />
                 </nuxt-link>
-                <nuxt-link to="/"
+                <nuxt-link to="/terms"
                     class="relative items-center flex gap-x-3 font-medium hover:text-green-600 text-slate-500 transition-all duration-200">
                     <span class="text-base">Terms and Conditions</span>
                 </nuxt-link>

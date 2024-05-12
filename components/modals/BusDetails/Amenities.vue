@@ -9,7 +9,7 @@ defineProps({
     },
 });
 const amenities = computed(() => {
-    return selectedData.value.amenities
+    return selectedData.value.bus.bus_amenity
 })
 </script>
 <template>
@@ -34,10 +34,10 @@ const amenities = computed(() => {
                                 <div
                                     class="grid grid-cols-2 items-center sm:grid-cols-[40px_repeat(2,1fr)] gap-y-2 gap-x-2">
                                     <div class="flex items-center text-green-600">
-                                        <div class="h-8 w-8" v-html="item.svg_icon"></div>
+                                        <div class="h-8 w-8" v-html="item.amenity.svg_icon"></div>
                                     </div>
                                     <div>
-                                        <span class="text-sm font-medium">{{ item.name }}</span>
+                                        <span class="text-sm font-medium">{{ item.amenity.name }}</span>
                                     </div>
                                 </div>
                             </div>

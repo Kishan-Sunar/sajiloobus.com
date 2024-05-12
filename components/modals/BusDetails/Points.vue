@@ -9,12 +9,12 @@ defineProps({
     },
 });
 const dropPoints = computed(() => {
-    return selectedData.value.points.filter((data) => {
+    return selectedData.value.route_point.filter((data) => {
         return data.type === "drop"
     })
 })
 const boardPoints = computed(() => {
-    return selectedData.value.points.filter((data) => {
+    return selectedData.value.route_point.filter((data) => {
         return data.type === "board"
     })
 })
@@ -41,7 +41,7 @@ const boardPoints = computed(() => {
                             <ul v-if="boardPoints.length">
                                 <li v-for="item in boardPoints" :key="item.id" class="flex gap-x-1 justify-between">
 
-                                    {{ item.location[0].name }}
+                                    {{ item.location.name }}
                                 </li>
                             </ul>
                             <div v-else>
@@ -52,7 +52,7 @@ const boardPoints = computed(() => {
                             <span class="font-semibold mb-2 block text-sm">Dropping Points</span>
                             <ul v-if="dropPoints.length">
                                 <li v-for="item in dropPoints" :key="item.id" class="flex gap-x-1 justify-between">
-                                    {{ item.location[0].name }}
+                                    {{ item.location.name }}
                                 </li>
                             </ul>
                             <div v-else>
